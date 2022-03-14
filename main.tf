@@ -13,11 +13,11 @@ resource "aws_ecs_cluster" "main" {
           dynamic "log_configuration" {
             for_each = execute_command_configuration.value.logging == "OVERRIDE" ? [execute_command_configuration.value.log_configuration] : []
             content {
-              cloud_watch_encryption_enabled = log_configuration.value.cloud_watch_encryption_enabled
-              cloud_watch_log_group_name     = log_configuration.value.cloud_watch_log_group_name
-              s3_bucket_name                 = log_configuration.value.s3_bucket_name
-              s3_bucket_encryption_enabled   = log_configuration.value.s3_bucket_encryption_enabled
-              s3_key_prefix                  = log_configuration.value.s3_key_prefix
+              cloud_watch_encryption_enabled = lookup(log_configuration.value, "cloud_watch_encryption_enabled", false)
+              cloud_watch_log_group_name     = lookup(log_configuration.value, "cloud_watch_log_group_name", null)
+              s3_bucket_name                 = lookup(log_configuration.value, "s3_bucket_name", null)
+              s3_bucket_encryption_enabled   = lookup(log_configuration.value, "s3_bucket_encryption_enabled", false)
+              s3_key_prefix                  = lookup(log_configuration.value, "s3_key_prefix", null)
             }
           }
         }

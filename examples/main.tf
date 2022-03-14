@@ -2,7 +2,7 @@
 locals {
   name           = "Sample-Cluster"
   logging        = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
-  create_kms_key = "false"
+  create_kms_key = false
 }
 
 resource "aws_cloudwatch_log_group" "this" {
@@ -30,8 +30,6 @@ module "cluster" {
         cloud_watch_encryption_enabled = true
         cloud_watch_log_group_name     = try(aws_cloudwatch_log_group.this[0].name, null)
         s3_bucket_encryption_enabled   = false
-        s3_bucket_name                 = ""
-        s3_key_prefix                  = ""
       }
       logging = local.logging
     }

@@ -7,19 +7,7 @@ variable "name" {
 variable "configuration" {
   description = "(Optional) The execute command configuration for the cluster. Detailed below."
   type        = any
-  default = {
-    execute_command_configuration = {
-      kms_key_id = null
-      logging    = "NONE"
-      log_configuration = {
-        cloud_watch_encryption_enabled = false
-        cloud_watch_log_group_name     = null
-        s3_bucket_name                 = null
-        s3_bucket_encryption_enabled   = false
-        s3_key_prefix                  = null
-      }
-    }
-  }
+  default     = {}
 }
 
 variable "container_insights" {
