@@ -21,8 +21,9 @@ module "kms_key" {
 }
 
 module "cluster" {
-  source = "./.."
-  name   = local.name
+  source  = "boldlink/ecs-cluster/aws"
+  version = "1.0.0"
+  name    = local.name
   configuration = {
     execute_command_configuration = {
       kms_key_id = try(module.kms_key[0].key_id, null)
