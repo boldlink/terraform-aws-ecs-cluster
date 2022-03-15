@@ -15,7 +15,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cluster"></a> [cluster](#module\_cluster) | ./.. | n/a |
+| <a name="module_cluster"></a> [cluster](#module\_cluster) | boldlink/ecs-cluster/aws | 1.0.0 |
 | <a name="module_kms_key"></a> [kms\_key](#module\_kms\_key) | boldlink/kms-key/aws | n/a |
 
 ## Resources
