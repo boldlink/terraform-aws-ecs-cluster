@@ -1,8 +1,14 @@
 
 locals {
-  name           = "Sample-Cluster"
-  logging        = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
-  create_kms_key = false
+  name                  = "Sample-Cluster3"
+  logging               = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
+  create_kms_key        = false
+  ecs_instance_userdata = <<USERDATA
+  #!/bin/bash -x
+  cat <<'EOF' >> /etc/ecs/ecs.config
+  ECS_CLUSTER=Sample-Cluster3
+  EOF
+  USERDATA
 }
 
 resource "aws_cloudwatch_log_group" "this" {
@@ -21,9 +27,8 @@ module "kms_key" {
 }
 
 module "cluster" {
-  source  = "boldlink/ecs-cluster/aws"
-  version = "1.0.0"
-  name    = local.name
+  source = "./../"
+  name   = local.name
   configuration = {
     execute_command_configuration = {
       kms_key_id = try(module.kms_key[0].key_id, null)
@@ -35,11 +40,36 @@ module "cluster" {
       logging = local.logging
     }
   }
+
+  create_ec2_instance = true
+
+
+  #create_security_group = false
+  ingress_rules = {
+    default = {
+      from_port   = 0
+      to_port     = 0
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+
+  }
+  egress_rules = {
+    default = {
+      from_port   = 0
+      to_port     = 0
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+  image_id           = data.aws_ami.amazon_ecs.image_id
+  instance_type      = "t2.micro"
+  user_data          = base64encode(local.ecs_instance_userdata)
+  device_name        = "/dev/xvda"
+  availability_zones = data.aws_availability_zones.available.names
+  max_size           = 2
 }
 
 output "cluster" {
   value = [
     module.cluster,
-    module.kms_key,
   ]
 }
