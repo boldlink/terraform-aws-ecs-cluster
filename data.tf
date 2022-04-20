@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "container_instance" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com", "ec2.amazonaws.com"]
+      identifiers = ["ec2.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
