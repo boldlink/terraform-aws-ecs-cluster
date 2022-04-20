@@ -19,6 +19,7 @@ Example available [here](https://github.com/boldlink/terraform-aws-ecs-cluster/t
 
 | Name | Version |
 |------|---------|
+
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.10.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | 3.3.0 |
