@@ -15,7 +15,7 @@ resource "aws_security_group" "this" {
 resource "aws_security_group_rule" "ingress" {
   for_each          = var.ingress_rules
   type              = "ingress"
-  description       = "Allow inbound traffic from existing Security Groups"
+  description       = "Allow custom inbound traffic from specific ports."
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
   protocol          = "-1"
@@ -26,7 +26,7 @@ resource "aws_security_group_rule" "ingress" {
 resource "aws_security_group_rule" "egress" {
   for_each          = var.egress_rules
   type              = "egress"
-  description       = "Allow all egress traffic"
+  description       = "Allow custom egress traffic"
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
   protocol          = "-1"

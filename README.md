@@ -1,6 +1,6 @@
 ## Description
 
-This module Provides an ECS cluster..
+This module Provides an ECS cluster.
 
 Example available [here](https://github.com/boldlink/terraform-aws-ecs-cluster/tree/main/examples)
 ## Documentation
