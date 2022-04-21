@@ -2,7 +2,7 @@
 locals {
   name                  = "Sample-Cluster3"
   logging               = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
-  create_kms_key        = false
+  create_kms_key        = true
   ecs_instance_userdata = <<USERDATA
   #!/bin/bash -x
   cat <<'EOF' >> /etc/ecs/ecs.config
@@ -71,5 +71,6 @@ module "cluster" {
 output "cluster" {
   value = [
     module.cluster,
+    module.kms_key
   ]
 }
