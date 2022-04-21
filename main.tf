@@ -1,5 +1,5 @@
 
-resource "aws_ecs_cluster" "main" {
+resource "aws_ecs_cluster" "this" {
   name = var.name
 
   dynamic "configuration" {
@@ -37,5 +37,18 @@ resource "aws_ecs_cluster" "main" {
     },
     var.other_tags,
   )
+}
 
+resource "aws_ecs_cluster_capacity_providers" "this" {
+  count              = var.add_capacity_providers ? 1 : 0
+  cluster_name       = aws_ecs_cluster.this.name
+  capacity_providers = var.capacity_providers
+  dynamic "default_capacity_provider_strategy" {
+    for_each = var.default_capacity_provider_strategy
+    content {
+      base              = lookup(default_capacity_provider_strategy.value, "base", null)
+      weight            = lookup(default_capacity_provider_strategy.value, "weight", null)
+      capacity_provider = lookup(default_capacity_provider_strategy.value, "capacity_provider")
+    }
+  }
 }
