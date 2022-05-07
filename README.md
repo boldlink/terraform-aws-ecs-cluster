@@ -1,3 +1,6 @@
+
+[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
+
 ## Description
 
 This module Provides an ECS cluster.
