@@ -1,15 +1,10 @@
-# Security group
+## Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group && var.create_ec2_instance ? 1 : 0
   name        = "${var.name}-security-group"
   vpc_id      = var.vpc_id
   description = "ECS cluster Security Group"
-  tags = merge(
-    {
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags        = var.tags
 }
 
 resource "aws_security_group_rule" "ingress" {
@@ -60,7 +55,7 @@ resource "aws_launch_template" "this" {
   description   = "Launch template for the ECS cluster"
   image_id      = var.image_id
   instance_type = var.instance_type
-  key_name      = var.create_key_pair ? aws_key_pair.this[0].key_name : var.key_name
+  key_name      = var.key_name
 
   iam_instance_profile {
     name = aws_iam_instance_profile.this[0].name
@@ -75,6 +70,7 @@ resource "aws_launch_template" "this" {
     associate_public_ip_address = var.associate_public_ip_address
     delete_on_termination       = var.delete_on_termination
     security_groups             = try(aws_security_group.this.*.id, "")
+    subnet_id                   = var.subnet_id
   }
 
   block_device_mappings {
@@ -91,53 +87,15 @@ resource "aws_launch_template" "this" {
     create_before_destroy = true
   }
 
-  tags = merge(
-    {
-      "Name"        = "${var.name}_tag"
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags = var.tags
   tag_specifications {
     resource_type = "instance"
-    tags = merge(
-      {
-        "Name"        = var.name
-        "Environment" = var.environment
-      },
-      var.other_tags,
-    )
+    tags          = var.tags
   }
+
   tag_specifications {
     resource_type = "volume"
-    tags = merge(
-      {
-        "Name"        = var.name
-        "Environment" = var.environment
-      },
-      var.other_tags,
-    )
-  }
-}
-
-# Key pair 
-resource "tls_private_key" "this" {
-  count     = var.create_key_pair && var.create_ec2_instance ? 1 : 0
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "aws_key_pair" "this" {
-  count      = var.create_key_pair && var.create_ec2_instance ? 1 : 0
-  key_name   = "${var.name}-keypair"
-  public_key = tls_private_key.this[0].public_key_openssh
-}
-
-## For downloading the keypair to local computer
-resource "null_resource" "local_save_ec2_keypair" {
-  count = var.create_key_pair && var.create_ec2_instance ? 1 : 0
-  provisioner "local-exec" {
-    command = "echo '${tls_private_key.this[0].private_key_pem}' > ${path.module}/${aws_key_pair.this[0].id}.pem"
+    tags          = var.tags
   }
 }
 
