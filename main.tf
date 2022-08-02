@@ -2,12 +2,9 @@
 resource "aws_ecs_cluster" "this" {
   name = var.name
 
-  dynamic "setting" {
-    for_each = var.setting
-    content {
-      name  = setting.value.name
-      value = setting.value.value
-    }
+  setting {
+    name  = "containerInsights"
+    value = var.container_insights
   }
 
   tags = var.tags

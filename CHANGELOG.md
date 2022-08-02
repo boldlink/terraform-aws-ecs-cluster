@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add more options for launch template and autoscaling group
 - feat: have the autoscaling group to be managed by AWS ECS
 - feat: have both ECS Cluster and service to be created by one module
-- feat: added supporting resources
-
+- fix: CKV_AWS_88 #EC2 instance should not have public IP
+- fix: CKV_AWS_79 #Ensure Instance Metadata Service Version 1 is not enabled
+- fix: CKV_AWS_153 #Autoscaling groups should supply tags to launch configurations
+- fix: CKV_AWS_224 #Ensure Cluster logging with CMK
 ## [1.0.2] - 2022-08-02
 ### Changes
 - Added the `.github/workflow` folder
@@ -22,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `.gitignore` file
 - fix: (urgent) terraform crashing when deploying minimum and complete examples
 - fix: restructure terraform block causing crash
+- feat: added supporting resources
 
 ## [1.0.1] - 2022-04-21
 ### Changes

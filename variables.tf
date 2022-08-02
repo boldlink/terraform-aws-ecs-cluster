@@ -10,10 +10,10 @@ variable "configuration" {
   default     = {}
 }
 
-variable "setting" {
-  description = "The settings block of the cluster."
-  default     = {}
-  type        = map(string)
+variable "container_insights" {
+  description = "The value to assign to the setting. Value values are enabled and disabled."
+  default     = "enabled"
+  type        = string
 }
 
 variable "tags" {
