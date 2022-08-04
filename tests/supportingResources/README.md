@@ -1,8 +1,8 @@
-[![Build Status](https://github.com/boldlink/terraform-aws-eks/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-eks/actions)
+[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 
 [<img src="https://avatars.githubusercontent.com/u/25388280?s=200&v=4" width="96"/>](https://boldlink.io)
 
-# terraform-aws-eks supporting resources
+# terraform-aws-ecs-cluster supporting resources
 
 These stacks are to be used on the examples testing and where setup to minimum dependencies,
 they are not in any way the recommended setup for a production grade implementation.
@@ -29,7 +29,7 @@ This stack builds:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ec2_vpc"></a> [ec2\_vpc](#module\_ec2\_vpc) | boldlink/vpc/aws | 2.0.3 |
+| <a name="module_ecs_vpc"></a> [ecs\_vpc](#module\_ecs\_vpc) | boldlink/vpc/aws | 2.0.3 |
 
 ## Resources
 

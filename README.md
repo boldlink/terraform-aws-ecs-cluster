@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/boldlink/terraform-aws-ec2/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-ec2/actions)
+[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 
 [<img src="https://avatars.githubusercontent.com/u/25388280?s=200&v=4" width="96"/>](https://boldlink.io)
 

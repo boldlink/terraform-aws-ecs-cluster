@@ -1,4 +1,4 @@
-module "ec2_vpc" {
+module "ecs_vpc" {
   source                  = "boldlink/vpc/aws"
   version                 = "2.0.3"
   name                    = local.name

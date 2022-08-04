@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV_AWS_79 #Ensure Instance Metadata Service Version 1 is not enabled
 - fix: CKV_AWS_153 #Autoscaling groups should supply tags to launch configurations
 - fix: CKV_AWS_224 #Ensure Cluster logging with CMK
+- feat: add an example that logs to s3 bucket
+- feat: test container insights in complete example
+
 ## [1.0.2] - 2022-08-02
 ### Changes
 - Added the `.github/workflow` folder
