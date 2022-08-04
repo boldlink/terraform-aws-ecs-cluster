@@ -16,14 +16,8 @@ variable "container_insights" {
   type        = string
 }
 
-variable "environment" {
-  description = "Environment tag, e.g prod, test"
-  default     = null
-  type        = string
-}
-
-variable "other_tags" {
-  description = "Any additional values for tags"
+variable "tags" {
+  description = "Key-value map of resource tags."
   default     = {}
   type        = map(string)
 }
@@ -71,6 +65,12 @@ variable "create_security_group" {
   description = "Whether to create a Security Group for ECS cluster."
   default     = true
   type        = bool
+}
+
+variable "subnet_id" {
+  description = "The subnet ID to launch the instances in"
+  type        = string
+  default     = null
 }
 
 # Launch template
@@ -150,14 +150,6 @@ variable "ebs_kms_key_id" {
   description = "The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. encrypted must be set to true when this is set."
   type        = string
   default     = null
-}
-
-# Key Pair
-
-variable "create_key_pair" {
-  description = "Whether or not to create a key pair"
-  type        = bool
-  default     = false
 }
 
 # Autoscaling Group

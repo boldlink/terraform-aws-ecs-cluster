@@ -1,33 +1,19 @@
-
-locals {
-  name                  = "Sample-Cluster3"
-  logging               = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
-  create_kms_key        = true
-  ecs_instance_userdata = <<USERDATA
-  #!/bin/bash -x
-  cat <<'EOF' >> /etc/ecs/ecs.config
-  ECS_CLUSTER=Sample-Cluster3
-  EOF
-  USERDATA
-}
-
+#### Complete example
 resource "aws_cloudwatch_log_group" "this" {
   count = local.logging != "OVERRIDE" ? 0 : 1
   name  = "${local.name}-log-group"
-
 }
 
 module "kms_key" {
-  count               = local.create_kms_key ? 1 : 0
-  source              = "boldlink/kms-key/aws"
-  description         = "A test kms key for ecs cluster"
-  name                = "${local.name}-key"
-  alias_name          = "alias/my-key-alias"
-  enable_key_rotation = true
+  source                  = "boldlink/kms/aws"
+  description             = "A test kms key for ecs cluster"
+  alias_name              = "alias/${local.name}-alias"
+  enable_key_rotation     = true
+  deletion_window_in_days = 7
 }
 
 module "cluster" {
-  source = "./../"
+  source = "../../"
   name   = local.name
   configuration = {
     execute_command_configuration = {
@@ -43,15 +29,14 @@ module "cluster" {
 
   create_ec2_instance = true
 
-
-  #create_security_group = false
+  subnet_id = local.public_subnets
+  vpc_id    = local.vpc_id
   ingress_rules = {
     default = {
       from_port   = 0
       to_port     = 0
       cidr_blocks = ["0.0.0.0/0"]
     }
-
   }
   egress_rules = {
     default = {
@@ -64,13 +49,8 @@ module "cluster" {
   instance_type      = "t2.micro"
   user_data          = base64encode(local.ecs_instance_userdata)
   device_name        = "/dev/xvda"
-  availability_zones = data.aws_availability_zones.available.names
+  availability_zones = [local.azs]
   max_size           = 2
-}
 
-output "cluster" {
-  value = [
-    module.cluster,
-    module.kms_key
-  ]
+  tags = local.tags
 }
