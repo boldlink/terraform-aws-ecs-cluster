@@ -11,5 +11,9 @@ module "ecs_vpc" {
   public_subnets          = local.public_subnets
   availability_zones      = local.azs
   map_public_ip_on_launch = true
-  tags                    = local.tags
+  tag_env                 = local.tag_env
+
+  other_tags = {
+    "user::CostCenter" = "terraform-registry"
+  }
 }

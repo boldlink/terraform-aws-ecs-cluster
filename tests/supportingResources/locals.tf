@@ -5,9 +5,5 @@ locals {
   azs            = flatten(data.aws_availability_zones.available.names)
   cidr_block     = "10.1.0.0/16"
   name           = "terraform-aws-ecs-cluster"
-  tags = {
-    environment        = "examples"
-    name               = local.name
-    "user::CostCenter" = "terraform-registry"
-  }
+  tag_env        = "examples"
 }

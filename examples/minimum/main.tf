@@ -2,8 +2,8 @@
 locals {
   name = "minimum-ecs-cluster-example"
   tags = {
-    environment        = "examples"
-    name               = local.name
+    Environment        = "examples"
+    Name               = local.name
     "user::CostCenter" = "terraform-registry"
   }
 }

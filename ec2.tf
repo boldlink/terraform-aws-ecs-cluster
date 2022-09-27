@@ -60,6 +60,7 @@ resource "aws_launch_template" "this" {
   iam_instance_profile {
     name = aws_iam_instance_profile.this[0].name
   }
+
   user_data = var.user_data
 
   monitoring {
@@ -83,11 +84,18 @@ resource "aws_launch_template" "this" {
     }
   }
 
+  metadata_options {
+    http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
+    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", 10)
+    http_tokens                 = lookup(var.metadata_options, "http_tokens", "required")
+  }
+
   lifecycle {
     create_before_destroy = true
   }
 
   tags = var.tags
+
   tag_specifications {
     resource_type = "instance"
     tags          = var.tags
