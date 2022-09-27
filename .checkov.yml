@@ -6,5 +6,4 @@ external-modules-download-path: .external_modules
 framework: all
 skip-check:
 - CKV_AWS_88 #EC2 instance should not have public IP
-- CKV_AWS_153 #Autoscaling groups should supply tags to launch configurations
 - CKV_AWS_224 #Ensure Cluster logging with CMK

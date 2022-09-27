@@ -111,10 +111,21 @@ resource "aws_launch_template" "this" {
 resource "aws_autoscaling_group" "container_instance" {
   count = var.create_ec2_instance ? 1 : 0
   name  = "${var.name}-asg"
+
   launch_template {
     id      = aws_launch_template.this[0].id
     version = "$Latest"
   }
+
+  dynamic "tag" {
+    for_each = var.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
+
   availability_zones = var.availability_zones
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
