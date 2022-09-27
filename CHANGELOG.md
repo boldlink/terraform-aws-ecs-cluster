@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
 
+## [1.0.3] - 2022-09-27
+### Changes
+- fix: CKV_AWS_79 #Ensure Instance Metadata Service Version 1 is not enabled
+
 ## [1.0.2] - 2022-08-02
 ### Changes
 - Added the `.github/workflow` folder
@@ -41,5 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.1.2...HEAD
 
+[1.0.3]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.3
+[1.0.2]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.2
 [1.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.1
 [1.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.0
