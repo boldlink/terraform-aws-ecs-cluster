@@ -12,9 +12,20 @@ Example available [here](https://github.com/boldlink/terraform-aws-ecs-cluster/t
 *NOTE*: These examples use the latest version of this module
 
 ```hcl
-module "complete_cluster" {
-  source            = "../../"
+#### Minimum example
+locals {
+  name = "minimum-ecs-cluster-example"
+  tags = {
+    Environment        = "examples"
+    Name               = local.name
+    "user::CostCenter" = "terraform-registry"
+  }
+}
 
+module "minimum_cluster" {
+  source = "../../"
+  name   = local.name
+  tags   = local.tags
 }
 ```
 
