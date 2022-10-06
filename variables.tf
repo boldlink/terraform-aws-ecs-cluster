@@ -16,6 +16,12 @@ variable "container_insights" {
   type        = string
 }
 
+variable "metadata_options" {
+  type        = map(string)
+  description = "Customize the metadata options of the instance"
+  default     = {}
+}
+
 variable "tags" {
   description = "Key-value map of resource tags."
   default     = {}
