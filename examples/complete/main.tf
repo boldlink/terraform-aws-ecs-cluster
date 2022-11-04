@@ -29,7 +29,7 @@ module "cluster" {
 
   create_ec2_instance = true
 
-  subnet_id = local.public_subnets
+  subnet_id = local.private_subnets
   vpc_id    = local.vpc_id
   ingress_rules = {
     default = {
@@ -45,12 +45,13 @@ module "cluster" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
-  image_id           = data.aws_ami.amazon_ecs.image_id
-  instance_type      = "t2.micro"
-  user_data          = base64encode(local.ecs_instance_userdata)
-  device_name        = "/dev/xvda"
-  availability_zones = [local.azs]
-  max_size           = 2
+  image_id                    = data.aws_ami.amazon_ecs.image_id
+  instance_type               = "t2.micro"
+  associate_public_ip_address = false
+  user_data                   = base64encode(local.ecs_instance_userdata)
+  device_name                 = "/dev/xvda"
+  availability_zones          = [local.azs]
+  max_size                    = 2
 
   tags = local.tags
 }
