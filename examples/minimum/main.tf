@@ -4,7 +4,11 @@ locals {
   tags = {
     Environment        = "examples"
     Name               = local.name
-    "user::CostCenter" = "terraform-registry"
+    "user::CostCenter" = "terraform"
+    department         = "operations"
+    instance-scheduler = true
+    LayerName          = "c600-aws-ecs-cluster"
+    LayerId            = "c600"
   }
 }
 

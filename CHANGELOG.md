@@ -9,10 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add more options for launch template and autoscaling group
 - feat: have the autoscaling group to be managed by AWS ECS
 - feat: have both ECS Cluster and service to be created by one module
-- fix: CKV_AWS_88 #EC2 instance should not have public IP
 - fix: CKV_AWS_224 #Ensure Cluster logging with CMK
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
+
+## [1.0.4] - 2022-11-04
+### Changes
+- fix: CKV_AWS_88 #EC2 instance should not have public IP
 
 ## [1.0.3] - 2022-09-27
 ### Changes
@@ -42,8 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.3...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.4...HEAD
 
+[1.0.4]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.4
 [1.0.3]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.3
 [1.0.2]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.2
 [1.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.1
