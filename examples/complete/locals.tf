@@ -18,7 +18,9 @@ locals {
     Name               = local.name
     "user::CostCenter" = "terraform"
     department         = "operations"
-    instance-scheduler = true
+    Project            = "ecs-security"
+    Owner              = "hugo.almeida"
+    InstanceScheduler  = true
     LayerName          = "c600-aws-ecs-cluster"
     LayerId            = "c600"
   }

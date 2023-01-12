@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
 
+## [1.0.5] - 2223-01-13
+- fix: CKV_AWS_224 #Ensure Cluster logging with CMK
+- feat: Added new automation workflows
+
 ## [1.0.4] - 2022-11-04
 ### Changes
 - fix: CKV_AWS_88 #EC2 instance should not have public IP

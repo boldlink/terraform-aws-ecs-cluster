@@ -13,6 +13,7 @@ module "kms_key" {
 }
 
 module "cluster" {
+  #checkov:skip=CKV_AWS_224:Ensure Cluster logging with CMK
   source = "../../"
   name   = local.name
   configuration = {

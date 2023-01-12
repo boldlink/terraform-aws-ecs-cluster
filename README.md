@@ -1,19 +1,18 @@
-[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/release.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
-[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
-[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pr-labeler.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
-[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/checkov.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
-[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/auto-badge.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 
 [<img src="https://avatars.githubusercontent.com/u/25388280?s=200&v=4" width="96"/>](https://boldlink.io)
 
 ## Description
 
-This module Creates an ECS cluster.
+An ECS Terraform module helps automate the provisioning and management of Amazon Elastic Container Service (ECS) resources within an AWS infrastructure. It is also compatible with other Terraform modules and AWS services.
 
-Example available [here](https://github.com/boldlink/terraform-aws-ecs-cluster/tree/main/examples)
+### Why choose this module over others: Unique advantages and features
+- Improved security: The module can be used to manage and enforce security best practices for ECS resources, such as creating and managing security groups and role-based access controls.
+- Easy to set up and use, with clear instructions and examples available.
+
+Example available [here](./examples)
 
 ## Usage
-*NOTE*: These examples use the latest version of this module
+**NOTE**: These examples utilize the most recent version of this module. To do so, specify the source without including a version number, as demonstrated below.
 
 ```hcl
 #### Minimum example
@@ -27,7 +26,7 @@ locals {
 }
 
 module "minimum_cluster" {
-  source = "../../"
+  source = "boldlink/ecs-cluster/aws"
   name   = local.name
   tags   = local.tags
 }
@@ -38,19 +37,20 @@ module "minimum_cluster" {
 [AWS ecs-cluster documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/clusters.html)
 
 [Terraform provider documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster)
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.11 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.20.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.45.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.49.0 |
 
 ## Modules
 
@@ -161,4 +161,4 @@ make cleanstatefiles
 ```
 
 
-#### BOLDLink-SIG 2022
+#### BOLDLink-SIG 2023
