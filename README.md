@@ -13,7 +13,7 @@
 
 An ECS Terraform module helps automate the provisioning and management of Amazon Elastic Container Service (ECS) resources within an AWS infrastructure. It is also compatible with other Terraform modules and AWS services.
 
-### Why choose this module over others: Unique advantages and features
+### Why choose this module
 - Improved security: The module can be used to manage and enforce security best practices for ECS resources, such as creating and managing security groups and role-based access controls.
 - Easy to set up and use, with clear instructions and examples available.
 
