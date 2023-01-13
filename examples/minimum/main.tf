@@ -2,17 +2,20 @@
 locals {
   name = "minimum-ecs-cluster-example"
   tags = {
-    Environment        = "examples"
+    Environment        = "example"
     Name               = local.name
     "user::CostCenter" = "terraform"
-    department         = "operations"
-    instance-scheduler = true
-    LayerName          = "c600-aws-ecs-cluster"
-    LayerId            = "c600"
+    department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
+    InstanceScheduler  = true
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 }
 
 module "minimum_cluster" {
+  #checkov:skip=CKV_AWS_224:Ensure Cluster logging with CMK
   source = "../../"
   name   = local.name
   tags   = local.tags

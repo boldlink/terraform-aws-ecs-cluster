@@ -1,3 +1,6 @@
+[![License](https://img.shields.io/badge/License-Apache-blue.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/blob/main/LICENSE)
+[![Latest Release](https://img.shields.io/github/release/boldlink/terraform-aws-ecs-cluster.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/releases/latest)
+[![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/update.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/release.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-ecs-cluster/actions/workflows/pr-labeler.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-ecs-cluster/actions)
@@ -27,7 +30,7 @@ This stack builds:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.50.0 |
 
 ## Modules
 

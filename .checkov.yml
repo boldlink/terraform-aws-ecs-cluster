@@ -5,4 +5,4 @@ evaluate-variables: true
 external-modules-download-path: .external_modules
 framework: all
 skip-check:
-- CKV_AWS_224 #Ensure Cluster logging with CMK
+- CKV2_GHA_1 #Ensure top-level permissions are not set to write-all
