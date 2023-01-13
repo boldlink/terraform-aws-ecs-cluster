@@ -2,15 +2,15 @@
 locals {
   name = "minimum-ecs-cluster-example"
   tags = {
-    Environment        = "examples"
+    Environment        = "example"
     Name               = local.name
     "user::CostCenter" = "terraform"
-    department         = "operations"
-    Project            = "ecs-security"
-    Owner              = "hugo.almeida"
+    department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
     InstanceScheduler  = true
-    LayerName          = "c600-aws-ecs-cluster"
-    LayerId            = "c600"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 }
 

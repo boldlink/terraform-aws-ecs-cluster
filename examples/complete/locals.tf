@@ -14,15 +14,15 @@ locals {
   vpc_id                    = data.aws_vpc.supporting.id
 
   tags = {
-    Environment        = "examples"
+    Environment        = "example"
     Name               = local.name
     "user::CostCenter" = "terraform"
-    department         = "operations"
-    Project            = "ecs-security"
-    Owner              = "hugo.almeida"
+    department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
     InstanceScheduler  = true
-    LayerName          = "c600-aws-ecs-cluster"
-    LayerId            = "c600"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 
   logging               = "OVERRIDE" #Valid values are NONE, DEFAULT, and OVERRIDE.
