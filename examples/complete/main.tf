@@ -1,7 +1,8 @@
 #### Complete example
 resource "aws_cloudwatch_log_group" "this" {
-  count = local.logging != "OVERRIDE" ? 0 : 1
-  name  = "${local.name}-log-group"
+  count             = local.logging != "OVERRIDE" ? 0 : 1
+  name              = "${local.name}-log-group"
+  retention_in_days = 7
 }
 
 module "kms_key" {
@@ -13,12 +14,11 @@ module "kms_key" {
 }
 
 module "cluster" {
-  #checkov:skip=CKV_AWS_224:Ensure Cluster logging with CMK
   source = "../../"
   name   = local.name
   configuration = {
     execute_command_configuration = {
-      kms_key_id = try(module.kms_key[0].key_id, null)
+      kms_key_id = module.kms_key.key_id
       log_configuration = {
         cloud_watch_encryption_enabled = true
         cloud_watch_log_group_name     = try(aws_cloudwatch_log_group.this[0].name, null)

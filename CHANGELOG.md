@@ -9,14 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add more options for launch template and autoscaling group
 - feat: have the autoscaling group to be managed by AWS ECS
 - feat: have both ECS Cluster and service to be created by one module
-- fix: CKV_AWS_224 #Ensure Cluster logging with CMK
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
 - fix: CKV_AWS_158 "Ensure that CloudWatch Log Group is encrypted by KMS"
+
+
+## [1.0.6] - 2023-01-25
 - fix: CKV_AWS_66 "Ensure that CloudWatch Log Group specifies retention days"
 
-## [1.0.5] - 2223-01-13
-- fix: CKV_AWS_224 #Ensure Cluster logging with CMK
+## [1.0.5] - 2023-01-13
+- fix: CKV_AWS_224 Ensure Cluster logging with CMK
 - feat: Added new automation workflows
 
 ## [1.0.4] - 2022-11-04
@@ -51,8 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.5...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.6...HEAD
 
+[1.0.6]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.5
 [1.0.4]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.4
 [1.0.3]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.3
