@@ -11,8 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: have both ECS Cluster and service to be created by one module
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
-- fix: CKV_AWS_158 "Ensure that CloudWatch Log Group is encrypted by KMS"
 
+
+## [1.0.7] - 2023-02-01
+- fix: CKV_AWS_158 "Ensure that CloudWatch Log Group is encrypted by KMS"
 
 ## [1.0.6] - 2023-01-25
 - fix: CKV_AWS_66 "Ensure that CloudWatch Log Group specifies retention days"
@@ -53,8 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.6...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.7...HEAD
 
+[1.0.7]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.5
 [1.0.4]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.4
