@@ -3,6 +3,7 @@ resource "aws_cloudwatch_log_group" "this" {
   count             = local.logging != "OVERRIDE" ? 0 : 1
   name              = "${local.name}-log-group"
   retention_in_days = 7
+  kms_key_id = module.kms_key.key_id
 }
 
 module "kms_key" {
