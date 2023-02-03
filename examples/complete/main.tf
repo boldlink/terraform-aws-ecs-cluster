@@ -3,7 +3,7 @@ resource "aws_cloudwatch_log_group" "this" {
   count             = local.logging != "OVERRIDE" ? 0 : 1
   name              = "${local.name}-log-group"
   retention_in_days = 7
-  kms_key_id        = module.kms_key.key_id
+  kms_key_id        = module.kms_key.arn
 }
 
 module "kms_key" {
@@ -11,6 +11,7 @@ module "kms_key" {
   description             = "A test kms key for ecs cluster"
   alias_name              = "alias/${local.name}-alias"
   enable_key_rotation     = true
+  kms_policy              = local.kms_policy
   deletion_window_in_days = 7
 }
 
@@ -30,6 +31,7 @@ module "cluster" {
   }
 
   create_ec2_instance = true
+  encrypted           = true
 
   subnet_id = local.private_subnets
   vpc_id    = local.vpc_id
