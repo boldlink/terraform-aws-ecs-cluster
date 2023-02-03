@@ -16,6 +16,7 @@ An ECS Terraform module helps automate the provisioning and management of Amazon
 ### Why choose this module
 - Improved security: The module can be used to manage and enforce security best practices for ECS resources, such as creating and managing security groups and role-based access controls.
 - Easy to set up and use, with clear instructions and examples available.
+- Contains a configuration block that contains the execute command configuration for the cluster.
 
 Example available [here](./examples)
 
