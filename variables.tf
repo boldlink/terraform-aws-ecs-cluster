@@ -149,7 +149,7 @@ variable "volume_type" {
 variable "encrypted" {
   description = "Enables EBS encryption on the volume (Default: false)."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "ebs_kms_key_id" {

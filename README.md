@@ -16,6 +16,8 @@ An ECS Terraform module helps automate the provisioning and management of Amazon
 ### Why choose this module
 - Improved security: The module can be used to manage and enforce security best practices for ECS resources, such as creating and managing security groups and role-based access controls.
 - Easy to set up and use, with clear instructions and examples available.
+- Allow you to configure encryption for containers execute command. NOTE: this configurations are only available through the API not the web console.
+- ensures EBS volumes created for EC2 instances are encrypted by default.
 
 Example available [here](./examples)
 
@@ -58,7 +60,7 @@ module "minimum_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.51.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.53.0 |
 
 ## Modules
 
