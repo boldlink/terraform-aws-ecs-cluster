@@ -60,7 +60,7 @@ module "minimum_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.53.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.54.0 |
 
 ## Modules
 
@@ -101,7 +101,7 @@ No modules.
 | <a name="input_device_name"></a> [device\_name](#input\_device\_name) | The name of the device to mount. | `string` | `null` | no |
 | <a name="input_ebs_kms_key_id"></a> [ebs\_kms\_key\_id](#input\_ebs\_kms\_key\_id) | The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. encrypted must be set to true when this is set. | `string` | `null` | no |
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | (Optional) Egress rules to add to the security group | `any` | `{}` | no |
-| <a name="input_encrypted"></a> [encrypted](#input\_encrypted) | Enables EBS encryption on the volume (Default: false). | `bool` | `false` | no |
+| <a name="input_encrypted"></a> [encrypted](#input\_encrypted) | Enables EBS encryption on the volume (Default: false). | `bool` | `true` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | (Optional) The AMI from which to launch the instance. | `string` | `null` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | (Optional) Ingress rules to add to the security group | `any` | `{}` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The type of the instance. | `string` | `null` | no |
