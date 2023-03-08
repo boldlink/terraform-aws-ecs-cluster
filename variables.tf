@@ -172,6 +172,12 @@ variable "enable_key_rotation" {
   default     = false
 }
 
+variable "key_description" {
+  description = "The description of the key as viewed in AWS console."
+  type = string
+  default = null
+}
+
 variable "deletion_window_in_days" {
   description = " (Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30."
   type        = number

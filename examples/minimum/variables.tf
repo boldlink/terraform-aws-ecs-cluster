@@ -1,7 +1,7 @@
 variable "name" {
   description = " Name of the cluster (up to 255 letters, numbers, hyphens, and underscores)"
   type        = string
-  default     = "minimum-ecs-cluster-exampl"
+  default     = "minimum-ecs-cluster-example"
 }
 
 variable "tags" {
