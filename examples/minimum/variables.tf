@@ -10,7 +10,7 @@ variable "tags" {
   default = {
     Environment        = "example"
     "user::CostCenter" = "terraform-registry"
-    department         = "DevOps"
+    Department         = "DevOps"
     Project            = "Examples"
     Owner              = "Boldlink"
     LayerName          = "Example"
