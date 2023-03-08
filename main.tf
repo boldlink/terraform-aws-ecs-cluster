@@ -55,7 +55,7 @@ resource "aws_ecs_cluster_capacity_providers" "this" {
 ### KMS Key
 resource "aws_kms_key" "main" {
   count                   = var.kms_key_id == null ? 1 : 0
-  description             = var.key_description 
+  description             = var.key_description
   enable_key_rotation     = var.enable_key_rotation
   policy                  = local.kms_policy
   deletion_window_in_days = var.deletion_window_in_days

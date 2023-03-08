@@ -10,10 +10,6 @@ locals {
   private_subnets = local.subnet_id[0]
   azs             = local.subnet_az[0]
   vpc_id          = data.aws_vpc.supporting.id
-  region          = data.aws_region.current.name
-  partition       = data.aws_partition.current.partition
-  account_id      = data.aws_caller_identity.current.account_id
-  dns_suffix      = data.aws_partition.current.dns_suffix
 
   ecs_instance_userdata = <<USERDATA
   #!/bin/bash -x

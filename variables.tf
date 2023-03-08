@@ -174,8 +174,8 @@ variable "enable_key_rotation" {
 
 variable "key_description" {
   description = "The description of the key as viewed in AWS console."
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "deletion_window_in_days" {
