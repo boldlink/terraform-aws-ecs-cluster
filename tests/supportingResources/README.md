@@ -30,13 +30,13 @@ This stack builds:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.56.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.24.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs_vpc"></a> [ecs\_vpc](#module\_ecs\_vpc) | boldlink/vpc/aws | 2.0.3 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | boldlink/vpc/aws | 2.0.3 |
 
 ## Resources
 
@@ -48,7 +48,11 @@ This stack builds:
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_cidr_block"></a> [cidr\_block](#input\_cidr\_block) | (Optional) The IPv4 CIDR block for the VPC. CIDR can be explicitly set or it can be derived from IPAM using `ipv4_netmask_length`. | `string` | `"10.1.0.0/16"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Input the name of vpc stack | `string` | `"terraform-aws-ecs-cluster"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the object. If configured with a provider default\_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level. | `map(string)` | <pre>{<br>  "Department": "DevOps",<br>  "Environment": "example",<br>  "LayerId": "Example",<br>  "LayerName": "Example",<br>  "Owner": "Boldlink",<br>  "Project": "Examples",<br>  "user::CostCenter": "terraform-registry"<br>}</pre> | no |
 
 ## Outputs
 
