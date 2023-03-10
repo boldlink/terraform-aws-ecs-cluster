@@ -1,9 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-data "aws_partition" "current" {}
-
-data "aws_region" "current" {}
-
 data "aws_ami" "amazon_ecs" {
   most_recent = true
 
@@ -27,14 +21,14 @@ data "aws_ami" "amazon_ecs" {
 data "aws_subnets" "private" {
   filter {
     name   = "tag:Name"
-    values = ["${local.supporting_resources_name}*.pri.*"]
+    values = ["${var.supporting_resources_name}*.pri.*"]
   }
 }
 
 data "aws_vpc" "supporting" {
   filter {
     name   = "tag:Name"
-    values = [local.supporting_resources_name]
+    values = [var.supporting_resources_name]
   }
 }
 

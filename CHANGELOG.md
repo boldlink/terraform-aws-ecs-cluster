@@ -11,8 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: have both ECS Cluster and service to be created by one module
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
-- feat: option to create one kms key for encryption inside the module
+- feat: option to use cmk to encrypt ec2 ebs volumes
 
+## [1.1.0] - 2023-03-08
+- feat: option to create one kms key for encryption inside the module
+- feat: dynamic ebs volume option in launch template
+- fix: some volumes were not encrypted upon creation
 
 ## [1.0.7] - 2023-02-01
 - fix: CKV_AWS_158 "Ensure that CloudWatch Log Group is encrypted by KMS"
@@ -56,8 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.0.7...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.1.0...HEAD
 
+[1.1.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.1.0
 [1.0.7]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.6
 [1.0.5]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.5

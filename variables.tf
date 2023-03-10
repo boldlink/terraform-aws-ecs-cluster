@@ -128,36 +128,6 @@ variable "delete_on_termination" {
   default     = true
 }
 
-variable "device_name" {
-  description = "The name of the device to mount."
-  type        = string
-  default     = null
-}
-
-variable "volume_size" {
-  description = " The size of the volume in gigabytes."
-  type        = number
-  default     = 30
-}
-
-variable "volume_type" {
-  description = "The volume type. Can be standard, gp2, gp3, io1, io2, sc1 or st1 (Default: gp2)."
-  type        = string
-  default     = "gp2"
-}
-
-variable "encrypted" {
-  description = "Enables EBS encryption on the volume (Default: false)."
-  type        = bool
-  default     = true
-}
-
-variable "ebs_kms_key_id" {
-  description = "The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. encrypted must be set to true when this is set."
-  type        = string
-  default     = null
-}
-
 # Autoscaling Group
 variable "availability_zones" {
   description = "(Optional) A list of one or more availability zones for the group. Used for EC2-Classic, attaching a network interface via id from a launch template"
@@ -181,4 +151,35 @@ variable "max_size" {
   description = " (Required) The maximum size of the Auto Scaling Group"
   type        = number
   default     = 10
+}
+
+variable "block_device_mappings" {
+  description = "(Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. "
+  type        = list(any)
+  default     = []
+}
+
+### KMS Key
+variable "kms_key_id" {
+  description = "(Optional) The AWS Key Management Service key ID to encrypt the data between the local client and the container."
+  type        = string
+  default     = null
+}
+
+variable "enable_key_rotation" {
+  description = "(Optional) Specifies whether key rotation is enabled. Defaults to false."
+  type        = bool
+  default     = false
+}
+
+variable "key_description" {
+  description = "The description of the key as viewed in AWS console."
+  type        = string
+  default     = null
+}
+
+variable "deletion_window_in_days" {
+  description = " (Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30."
+  type        = number
+  default     = 30
 }

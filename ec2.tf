@@ -74,13 +74,26 @@ resource "aws_launch_template" "this" {
     subnet_id                   = var.subnet_id
   }
 
-  block_device_mappings {
-    device_name = var.device_name
-    ebs {
-      volume_size = var.volume_size
-      volume_type = var.volume_type
-      encrypted   = var.encrypted
-      kms_key_id  = var.ebs_kms_key_id
+  dynamic "block_device_mappings" {
+    for_each = var.block_device_mappings
+    content {
+      device_name  = block_device_mappings.value.device_name
+      no_device    = try(block_device_mappings.value.no_device, null)
+      virtual_name = try(block_device_mappings.value.virtual_name, null)
+
+      dynamic "ebs" {
+        for_each = flatten([try(block_device_mappings.value.ebs, [])])
+        content {
+          encrypted             = try(ebs.value.encrypted, null)
+          kms_key_id            = try(ebs.value.kms_key_id, null)
+          delete_on_termination = try(ebs.value.delete_on_termination, null)
+          iops                  = try(ebs.value.iops, null)
+          throughput            = try(ebs.value.throughput, null)
+          snapshot_id           = try(ebs.value.snapshot_id, null)
+          volume_size           = try(ebs.value.volume_size, null)
+          volume_type           = try(ebs.value.volume_type, null)
+        }
+      }
     }
   }
 
