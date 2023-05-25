@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "this" {
   count             = var.logging != "OVERRIDE" ? 0 : 1
   name              = "${var.name}-log-group"
   retention_in_days = var.retention_in_days
-  kms_key_id        = module.cluster.key_arn
+  kms_key_id        = module.cluster.key_arn[0]
 }
 
 module "cluster" {

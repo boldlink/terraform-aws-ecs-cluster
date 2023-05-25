@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: test container insights in complete example
 - feat: option to use cmk to encrypt ec2 ebs volumes
 
+## [1.1.1] - 2023-05-25
+- fix: kms key outputs
+
 ## [1.1.0] - 2023-03-08
 - feat: option to create one kms key for encryption inside the module
 - feat: dynamic ebs volume option in launch template
