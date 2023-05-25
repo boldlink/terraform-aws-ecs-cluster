@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: test container insights in complete example
 - feat: option to create one kms key for encryption inside the module
 
+## [1.0.8] - 2023-05-25
+- fix: kms key outputs
 
 ## [1.0.7] - 2023-02-01
 - fix: CKV_AWS_158 "Ensure that CloudWatch Log Group is encrypted by KMS"
