@@ -6,12 +6,48 @@ variable "cidr_block" {
 
 variable "name" {
   type        = string
-  description = "Input the name of vpc stack"
+  description = "Input the name of stack"
   default     = "terraform-aws-ecs-cluster"
 }
 
+variable "enable_dns_hostnames" {
+  type        = bool
+  description = "(Optional) A boolean flag to enable/disable DNS hostnames in the VPC. Defaults `false`."
+  default     = true
+}
+
+variable "enable_dns_support" {
+  type        = bool
+  description = "Whether to enable dns support for the vpc"
+  default     = true
+}
+
+variable "enable_public_subnets" {
+  type        = bool
+  description = "Whether to enable public subnets"
+  default     = true
+}
+
+variable "enable_private_subnets" {
+  type        = bool
+  description = "Whether to enable private subnets"
+  default     = true
+}
+
+variable "map_public_ip_on_launch" {
+  type        = bool
+  description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is `false`."
+  default     = true
+}
+
+variable "nat" {
+  type        = string
+  description = "Choose `single` or `multi` for NATs"
+  default     = "single"
+}
+
 variable "tags" {
-  description = " A map of tags to assign to the object. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
+  description = "Map of tags to assign to the resource."
   type        = map(string)
   default = {
     Environment        = "example"

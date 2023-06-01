@@ -18,7 +18,7 @@ module "cluster" {
       logging = var.logging
     }
   }
-
+  create_kms_key      = var.create_kms_key
   key_description     = var.key_description
   create_ec2_instance = var.create_ec2_instance
   subnet_id           = local.private_subnets

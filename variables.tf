@@ -183,3 +183,9 @@ variable "deletion_window_in_days" {
   type        = number
   default     = 30
 }
+
+variable "create_kms_key" {
+  description = "Whether or not to create a kms key with this module"
+  type        = bool
+  default     = false
+}

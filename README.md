@@ -61,7 +61,7 @@ module "minimum_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.63.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.10.0 |
 
 ## Modules
 
@@ -99,6 +99,7 @@ No modules.
 | <a name="input_configuration"></a> [configuration](#input\_configuration) | (Optional) The execute command configuration for the cluster. Detailed below. | `any` | `{}` | no |
 | <a name="input_container_insights"></a> [container\_insights](#input\_container\_insights) | The value to assign to the setting. Value values are enabled and disabled. | `string` | `"enabled"` | no |
 | <a name="input_create_ec2_instance"></a> [create\_ec2\_instance](#input\_create\_ec2\_instance) | Whether or not to create a cluster ec2 instance(s) | `bool` | `false` | no |
+| <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Whether or not to create a kms key with this module | `bool` | `false` | no |
 | <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for ECS cluster. | `bool` | `true` | no |
 | <a name="input_default_capacity_provider_strategy"></a> [default\_capacity\_provider\_strategy](#input\_default\_capacity\_provider\_strategy) | (Optional) Set of capacity provider strategies to use by default for the cluster. | `list(map(any))` | `[]` | no |
 | <a name="input_delete_on_termination"></a> [delete\_on\_termination](#input\_delete\_on\_termination) | Whether the network interface should be destroyed on instance termination. Defaults to false if not set. | `bool` | `true` | no |
