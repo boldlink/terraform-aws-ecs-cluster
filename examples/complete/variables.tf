@@ -90,3 +90,9 @@ variable "tags" {
     LayerId            = "Example"
   }
 }
+
+variable "create_kms_key" {
+  description = "Whether or not to create a kms key with this module"
+  type        = bool
+  default     = true
+}

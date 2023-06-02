@@ -24,7 +24,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.63.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.0.1 |
 
 ## Modules
 
@@ -49,6 +49,7 @@
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Associate a public ip address with the network interface. Boolean value. | `bool` | `false` | no |
 | <a name="input_block_device_mappings"></a> [block\_device\_mappings](#input\_block\_device\_mappings) | (Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. | `list(any)` | <pre>[<br>  {<br>    "device_name": "/dev/xvda",<br>    "ebs": {<br>      "delete_on_termination": true,<br>      "encrypted": true,<br>      "volume_size": 20,<br>      "volume_type": "gp2"<br>    }<br>  },<br>  {<br>    "device_name": "/dev/xvdcz",<br>    "ebs": {<br>      "delete_on_termination": true,<br>      "encrypted": true,<br>      "volume_size": 22,<br>      "volume_type": "gp2"<br>    }<br>  }<br>]</pre> | no |
 | <a name="input_create_ec2_instance"></a> [create\_ec2\_instance](#input\_create\_ec2\_instance) | Whether or not to create a cluster ec2 instance(s) | `bool` | `true` | no |
+| <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Whether or not to create a kms key with this module | `bool` | `true` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The type of the instance. | `string` | `"t2.micro"` | no |
 | <a name="input_key_description"></a> [key\_description](#input\_key\_description) | The description of the key as viewed in AWS console. | `string` | `"KMS key to encrypt the data between the local client and the container and cloudwatch logs."` | no |
 | <a name="input_logging"></a> [logging](#input\_logging) | The log setting to use for redirecting logs for your execute command results. Valid values are NONE, DEFAULT, and OVERRIDE. | `string` | `"OVERRIDE"` | no |

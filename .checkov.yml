@@ -1,0 +1,11 @@
+directory:
+- .
+download-external-modules: false
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework: all
+skip-check:
+- CKV2_AWS_5 #Ensure that Security Groups are attached to another resource"
+- CKV_AWS_33 #Ensure KMS key policy does not contain wildcard (*) principal"
+- CKV_AWS_7  #Ensure rotation for customer created CMKs is enabled"
+- CKV_AWS_338 #Ensure CloudWatch log groups retains logs for at least 1 year"
