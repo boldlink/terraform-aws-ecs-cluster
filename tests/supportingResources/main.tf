@@ -1,4 +1,5 @@
 module "cluster_vpc" {
+  #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
   source                 = "boldlink/vpc/aws"
   version                = "3.0.4"
   name                   = var.name
