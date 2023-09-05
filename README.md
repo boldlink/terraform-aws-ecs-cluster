@@ -21,6 +21,28 @@ An ECS Terraform module helps automate the provisioning and management of Amazon
 - Allow you to configure encryption for containers execute command. NOTE: this configurations are only available through the API not the web console.
 - ensures EBS volumes created for EC2 instances are encrypted by default.
 
+## Connecting to Instances
+- Use SSM Manager CLI to connect to instance Linux and Windows ec2 instances.
+- **NOTE:** It's crucial to configure the security group outbound rules to allow all traffic to any destination (`0.0.0.0/0`). This is necessary because the instance requires the capability to send requests for downloading packages.
+
+### Using AWS CLI to start Systems Manager Session
+- Make sure you have the Session Manager plugin installed on your system. For installation instructions, refer to the guide [here](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
+- Run the following command to start session from your terminal
+```console
+aws ssm start-session \
+    --target "<instance_id>"
+```
+Replace `<instance_id>` with the ID of the instance you want to connect to
+
+## Launching in Private Subnets without NAT Gateways or internet connection
+To manage instances in isolated subnets without internet connectivity, it is necessary to enable VPC endpoints for specific services, including:
+- `com.amazonaws.[region].ssm`
+- `com.amazonaws.[region].ec2messages`
+- `com.amazonaws.[region].ssmmessages`
+- `(optional) com.amazonaws.[region].kms for KMS encryption in Session Manager`
+
+You can use Boldlink VPC Endpoints Terraform module [here](https://github.com/boldlink/terraform-aws-vpc-endpoints/tree/main/examples)
+
 Example available [here](./examples)
 
 ## Usage
@@ -56,13 +78,15 @@ module "minimum_cluster" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.11 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.45.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0.0 |
+| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.12.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.15.0 |
+| <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
 
 ## Modules
 
@@ -78,6 +102,7 @@ No modules.
 | [aws_iam_instance_profile.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_role.cluster_instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.ecs_cluster_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.ssm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_key.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_launch_template.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -87,6 +112,7 @@ No modules.
 | [aws_iam_policy_document.container_instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [template_cloudinit_config.config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/cloudinit_config) | data source |
 
 ## Inputs
 
@@ -108,8 +134,10 @@ No modules.
 | <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | (Optional) The number of Amazon EC2 instances that should be running in the group. | `number` | `1` | no |
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | (Optional) Egress rules to add to the security group | `any` | `{}` | no |
 | <a name="input_enable_key_rotation"></a> [enable\_key\_rotation](#input\_enable\_key\_rotation) | (Optional) Specifies whether key rotation is enabled. Defaults to false. | `bool` | `false` | no |
+| <a name="input_extra_script"></a> [extra\_script](#input\_extra\_script) | The name of the extra script | `string` | `""` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | (Optional) The AMI from which to launch the instance. | `string` | `null` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | (Optional) Ingress rules to add to the security group | `any` | `{}` | no |
+| <a name="input_install_ssm_agent"></a> [install\_ssm\_agent](#input\_install\_ssm\_agent) | Whether to install ssm agent | `bool` | `true` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The type of the instance. | `string` | `null` | no |
 | <a name="input_key_description"></a> [key\_description](#input\_key\_description) | The description of the key as viewed in AWS console. | `string` | `null` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | (Optional) The key name to use for the instance. | `string` | `null` | no |
