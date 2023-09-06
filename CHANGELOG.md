@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
 - feat: Add `aws_ecs_capacity_provider` resource
 - feat: Add more options for launch template and autoscaling group
 - feat: have the autoscaling group to be managed by AWS ECS
@@ -12,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: add an example that logs to s3 bucket
 - feat: test container insights in complete example
 - feat: option to use cmk to encrypt ec2 ebs volumes
+
+## [2.0.0] - 2023-09-05
+- feat: Added ssm support for launched instances
+- feat: removed key pair creation feature which brings breaking changes. This means that ssh by using key pair is no longer supported
 
 ## [1.1.1] - 2023-06-01
 - fix: kms key outputs
@@ -63,8 +68,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.0...HEAD
 
+[2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.1.0
 [1.0.7]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.7
 [1.0.6]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.6

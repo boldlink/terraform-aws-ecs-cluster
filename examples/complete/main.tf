@@ -41,7 +41,7 @@ module "cluster" {
   image_id                    = data.aws_ami.amazon_ecs.image_id
   instance_type               = var.instance_type
   associate_public_ip_address = var.associate_public_ip_address
-  user_data                   = base64encode(local.ecs_instance_userdata)
+  extra_script                = local.ecs_instance_userdata
   availability_zones          = [local.azs]
   max_size                    = var.max_size
   tags = merge(

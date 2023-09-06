@@ -48,6 +48,13 @@ resource "aws_iam_role_policy_attachment" "ecs_cluster_ec2_role" {
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+## Managed Policy to allow ssm agent to communicate with SSM Manager
+resource "aws_iam_role_policy_attachment" "ssm" {
+  count      = var.create_ec2_instance && var.install_ssm_agent ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.cluster_instance[0].id
+}
+
 # Launch template
 resource "aws_launch_template" "this" {
   count         = var.create_ec2_instance ? 1 : 0
@@ -61,7 +68,7 @@ resource "aws_launch_template" "this" {
     name = aws_iam_instance_profile.this[0].name
   }
 
-  user_data = var.user_data
+  user_data = var.install_ssm_agent ? data.template_cloudinit_config.config.rendered : var.user_data
 
   monitoring {
     enabled = var.monitoring_enabled

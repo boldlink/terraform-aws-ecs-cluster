@@ -16,6 +16,18 @@ variable "container_insights" {
   type        = string
 }
 
+variable "extra_script" {
+  type        = string
+  description = "The name of the extra script"
+  default     = ""
+}
+
+variable "install_ssm_agent" {
+  type        = bool
+  description = "Whether to install ssm agent"
+  default     = true
+}
+
 variable "metadata_options" {
   type        = map(string)
   description = "Customize the metadata options of the instance"
