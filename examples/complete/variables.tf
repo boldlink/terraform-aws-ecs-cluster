@@ -96,3 +96,9 @@ variable "create_kms_key" {
   type        = bool
   default     = true
 }
+
+variable "monitoring_enabled" {
+  description = "(Optional) The monitoring option for the instance."
+  type        = bool
+  default     = true
+}

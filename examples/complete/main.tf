@@ -44,6 +44,12 @@ module "cluster" {
   extra_script                = local.ecs_instance_userdata
   availability_zones          = [local.azs]
   max_size                    = var.max_size
+  monitoring_enabled          = var.monitoring_enabled
+  metadata_options = {
+        http_endpoint               = "enabled"
+        http_tokens                 = "required"
+        http_put_response_hop_limit = 2  
+  }
   tags = merge(
     {
       Name = var.name

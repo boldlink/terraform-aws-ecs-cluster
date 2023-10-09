@@ -201,3 +201,9 @@ variable "create_kms_key" {
   type        = bool
   default     = false
 }
+
+variable "launch_template_version" {
+  type        = string
+  description = "The version of the launch template"
+  default     = "$Latest"
+}

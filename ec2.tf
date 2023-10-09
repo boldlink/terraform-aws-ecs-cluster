@@ -58,8 +58,8 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 # Launch template
 resource "aws_launch_template" "this" {
   count         = var.create_ec2_instance ? 1 : 0
-  name_prefix   = "${var.name}-launch-config"
-  description   = "Launch template for the ECS cluster"
+  name_prefix   = "${var.name}-launch-template"
+  description   = "Launch template for ${var.name} ECS cluster"
   image_id      = var.image_id
   instance_type = var.instance_type
   key_name      = var.key_name
@@ -105,9 +105,11 @@ resource "aws_launch_template" "this" {
   }
 
   metadata_options {
-    http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
-    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", 1)
-    http_tokens                 = lookup(var.metadata_options, "http_tokens", "required")
+    http_endpoint               = try(var.metadata_options.http_endpoint, "enabled")
+    http_put_response_hop_limit = try(var.metadata_options.http_put_response_hop_limit, 1)
+    http_tokens                 = try(var.metadata_options.http_tokens, "optional")   
+    http_protocol_ipv6          = try(var.metadata_options.value.http_protocol_ipv6, null)
+    instance_metadata_tags      = try(var.metadata_options.value.instance_metadata_tags, null)
   }
 
   lifecycle {
@@ -134,7 +136,7 @@ resource "aws_autoscaling_group" "container_instance" {
 
   launch_template {
     id      = aws_launch_template.this[0].id
-    version = "$Latest"
+    version = var.launch_template_version
   }
 
   dynamic "tag" {
