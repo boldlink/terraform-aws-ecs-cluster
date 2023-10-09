@@ -46,7 +46,7 @@ module "cluster" {
   max_size                    = var.max_size
   monitoring_enabled          = var.monitoring_enabled
   metadata_options = {
-        http_endpoint               = "disabled"
+    http_endpoint = "disabled"
   }
   tags = merge(
     {
