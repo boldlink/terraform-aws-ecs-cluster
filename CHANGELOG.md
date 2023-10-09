@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: test container insights in complete example
 - feat: option to use cmk to encrypt ec2 ebs volumes
 
+## [2.0.1] - 2023-10-09
+- fix: metadata_options block
+- enabled monitoring in complete example
+- disabled Instance Metadata Service Version 1
+
 ## [2.0.0] - 2023-09-05
 - feat: Added ssm support for launched instances
 - feat: removed key pair creation feature which brings breaking changes. This means that ssh by using key pair is no longer supported
@@ -68,8 +73,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.1...HEAD
 
+[2.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.1
 [2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.1.0
 [1.0.7]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.7
