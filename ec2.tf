@@ -105,11 +105,11 @@ resource "aws_launch_template" "this" {
   }
 
   metadata_options {
-    http_endpoint               = try(var.metadata_options.http_endpoint, "enabled")
-    http_put_response_hop_limit = try(var.metadata_options.http_put_response_hop_limit, 1)
-    http_tokens                 = try(var.metadata_options.http_tokens, "optional")
-    http_protocol_ipv6          = try(var.metadata_options.value.http_protocol_ipv6, null)
-    instance_metadata_tags      = try(var.metadata_options.value.instance_metadata_tags, null)
+    http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
+    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", null)
+    http_tokens                 = lookup(var.metadata_options, "http_tokens", "optional")   
+    http_protocol_ipv6          = lookup(var.metadata_options, "value.http_protocol_ipv6", null)
+    instance_metadata_tags      = lookup(var.metadata_options, "value.instance_metadata_tags", null)
   }
 
   lifecycle {
