@@ -24,7 +24,7 @@ variable "create_ec2_instance" {
 variable "instance_type" {
   description = "(Optional) The type of the instance."
   type        = string
-  default     = "t2.micro"
+  default     = "t3.medium"
 }
 
 variable "associate_public_ip_address" {
@@ -100,5 +100,81 @@ variable "create_kms_key" {
 variable "monitoring_enabled" {
   description = "(Optional) The monitoring option for the instance."
   type        = bool
+  default     = true
+}
+
+# ECS Service
+
+variable "image" {
+  type        = string
+  description = "Name of image to pull from dockerhub"
+  default     = "boldlink/flaskapp:latest"
+}
+
+variable "cpu" {
+  type        = number
+  description = "The number of cpu units to allocate"
+  default     = 10
+}
+
+variable "memory" {
+  type        = number
+  description = "The size of memory to allocate in MiBs"
+  default     = 512
+}
+
+variable "essential" {
+  type        = bool
+  description = "Whether this container is essential"
+  default     = true
+}
+
+variable "containerport" {
+  type        = number
+  description = "Specify container port"
+  default     = 5000
+}
+
+variable "hostport" {
+  type        = number
+  description = "Specify host port"
+  default     = 5000
+}
+
+variable "network_mode" {
+  type        = string
+  description = "Docker networking mode to use for the containers in the task. Valid values are none, bridge, awsvpc, and host."
+  default     = "bridge"
+}
+
+variable "service_ingress_rules" {
+  description = "Ingress rules to add to the service security group."
+  type        = list(any)
+  default = [
+    {
+      from_port   = 5000
+      to_port     = 5000
+      protocol    = "tcp"
+      description = "Allow traffic on port 5000. The app is configured to use this port"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+
+variable "launch_type" {
+  default     = "EC2"
+  description = "Launch type on which to run your service. The valid values are EC2, FARGATE, and EXTERNAL. Defaults to EC2."
+  type        = string
+}
+
+variable "requires_compatibilities" {
+  description = "Set of launch types required by the task. The valid values are EC2 and FARGATE."
+  type        = list(string)
+  default     = []
+}
+
+variable "install_ssm_agent" {
+  type        = bool
+  description = "Whether to install ssm agent"
   default     = true
 }
