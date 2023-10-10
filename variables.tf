@@ -25,7 +25,7 @@ variable "extra_script" {
 variable "install_ssm_agent" {
   type        = bool
   description = "Whether to install ssm agent"
-  default     = true
+  default     = false
 }
 
 variable "metadata_options" {
