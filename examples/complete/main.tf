@@ -60,8 +60,8 @@ module "cluster" {
 module "ecs_service" {
   #checkov:skip=CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
   #checkov:skip=CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
-  source  = "boldlink/ecs-service/aws"
-  version = "1.5.3"
+  source                     = "boldlink/ecs-service/aws"
+  version                    = "1.5.3"
   name                       = "${var.name}-service"
   family                     = "${var.name}-task-definition"
   network_mode               = var.network_mode
@@ -80,6 +80,5 @@ module "ecs_service" {
     subnets = local.private_subnets
   }
 
-  depends_on = [ module.cluster ]
+  depends_on = [module.cluster]
 }
-

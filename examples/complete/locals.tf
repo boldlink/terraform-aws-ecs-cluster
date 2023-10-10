@@ -5,9 +5,9 @@ locals {
   private_subnet_id = [
     for i in data.aws_subnet.private : i.id
   ]
-  region          = data.aws_region.current.name
-  azs             = local.subnet_az[0]
-  vpc_id          = data.aws_vpc.supporting.id
+  region = data.aws_region.current.name
+  azs    = local.subnet_az[0]
+  vpc_id = data.aws_vpc.supporting.id
 
   ecs_instance_userdata = <<USERDATA
   #!/bin/bash -x
