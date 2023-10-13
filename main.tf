@@ -16,17 +16,17 @@ resource "aws_ecs_cluster" "this" {
         for_each = try([configuration.value.execute_command_configuration], [])
 
         content {
-          kms_key_id = var.create_kms_key == true ? aws_kms_key.main[0].key_id : var.kms_key_id
+          kms_key_id = var.create_kms_key ? aws_kms_key.main[0].key_id : var.kms_key_id
           logging    = lookup(execute_command_configuration.value, "logging", "DEFAULT")
 
           dynamic "log_configuration" {
             for_each = try([execute_command_configuration.value.log_configuration], [])
 
             content {
-              cloud_watch_encryption_enabled = var.create_kms_key == true ? true : lookup(log_configuration.value, "cloud_watch_encryption_enabled", null)
+              cloud_watch_encryption_enabled = var.create_kms_key ? true : lookup(log_configuration.value, "cloud_watch_encryption_enabled", null)
               cloud_watch_log_group_name     = lookup(log_configuration.value, "cloud_watch_log_group_name", null)
               s3_bucket_name                 = lookup(log_configuration.value, "s3_bucket_name", null)
-              s3_bucket_encryption_enabled   = var.create_kms_key == true ? true : lookup(log_configuration.value, "s3_bucket_encryption_enabled", null)
+              s3_bucket_encryption_enabled   = var.create_kms_key ? true : lookup(log_configuration.value, "s3_bucket_encryption_enabled", null)
               s3_key_prefix                  = lookup(log_configuration.value, "s3_key_prefix", null)
             }
           }
@@ -44,8 +44,8 @@ resource "aws_ecs_cluster_capacity_providers" "this" {
   dynamic "default_capacity_provider_strategy" {
     for_each = var.default_capacity_provider_strategy
     content {
-      base              = lookup(default_capacity_provider_strategy.value, "base", null)
-      weight            = lookup(default_capacity_provider_strategy.value, "weight", null)
+      base              = lookup(default_capacity_provider_strategy.value, "base", 0)
+      weight            = lookup(default_capacity_provider_strategy.value, "weight", 0)
       capacity_provider = lookup(default_capacity_provider_strategy.value, "capacity_provider")
     }
   }

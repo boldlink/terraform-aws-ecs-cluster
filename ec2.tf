@@ -87,8 +87,8 @@ resource "aws_launch_template" "this" {
     for_each = var.block_device_mappings
     content {
       device_name  = block_device_mappings.value.device_name
-      no_device    = try(block_device_mappings.value.no_device, null)
-      virtual_name = try(block_device_mappings.value.virtual_name, null)
+      no_device    = lookup(block_device_mappings.value, "no_device", null)
+      virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
 
       dynamic "ebs" {
         for_each = flatten([try(block_device_mappings.value.ebs, [])])

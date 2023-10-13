@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: have the autoscaling group to be managed by AWS ECS
 - feat: add an example that logs to s3 bucket
 - feat: option to use cmk to encrypt ec2 ebs volumes
+- FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
 
 ## [2.0.1] - 2023-10-09
 - fix: metadata_options block
