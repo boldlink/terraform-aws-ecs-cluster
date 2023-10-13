@@ -25,7 +25,7 @@ variable "extra_script" {
 variable "install_ssm_agent" {
   type        = bool
   description = "Whether to install ssm agent"
-  default     = true
+  default     = false
 }
 
 variable "metadata_options" {
@@ -167,7 +167,7 @@ variable "max_size" {
 
 variable "block_device_mappings" {
   description = "(Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. "
-  type        = list(any)
+  type        = any
   default     = []
 }
 
@@ -200,4 +200,10 @@ variable "create_kms_key" {
   description = "Whether or not to create a kms key with this module"
   type        = bool
   default     = false
+}
+
+variable "launch_template_version" {
+  type        = string
+  description = "The version of the launch template"
+  default     = "$Latest"
 }

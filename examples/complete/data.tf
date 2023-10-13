@@ -1,3 +1,11 @@
+data "aws_partition" "current" {}
+
+data "aws_region" "current" {}
+
+data "aws_kms_alias" "ebs" {
+  name = "alias/aws/ebs"
+}
+
 data "aws_ami" "amazon_ecs" {
   most_recent = true
 
@@ -35,4 +43,15 @@ data "aws_vpc" "supporting" {
 data "aws_subnet" "private" {
   for_each = toset(data.aws_subnets.private.ids)
   id       = each.value
+}
+
+data "aws_iam_policy_document" "ecs_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
 }

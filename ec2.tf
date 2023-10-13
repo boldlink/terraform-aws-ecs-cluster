@@ -48,6 +48,7 @@ resource "aws_iam_role_policy_attachment" "ecs_cluster_ec2_role" {
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
+
 ## Managed Policy to allow ssm agent to communicate with SSM Manager
 resource "aws_iam_role_policy_attachment" "ssm" {
   count      = var.create_ec2_instance && var.install_ssm_agent ? 1 : 0
@@ -55,11 +56,12 @@ resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.cluster_instance[0].id
 }
 
+
 # Launch template
 resource "aws_launch_template" "this" {
   count         = var.create_ec2_instance ? 1 : 0
-  name_prefix   = "${var.name}-launch-config"
-  description   = "Launch template for the ECS cluster"
+  name_prefix   = "${var.name}-launch-template"
+  description   = "Launch template for ${var.name} ECS cluster"
   image_id      = var.image_id
   instance_type = var.instance_type
   key_name      = var.key_name
@@ -85,8 +87,8 @@ resource "aws_launch_template" "this" {
     for_each = var.block_device_mappings
     content {
       device_name  = block_device_mappings.value.device_name
-      no_device    = try(block_device_mappings.value.no_device, null)
-      virtual_name = try(block_device_mappings.value.virtual_name, null)
+      no_device    = lookup(block_device_mappings.value, "no_device", null)
+      virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
 
       dynamic "ebs" {
         for_each = flatten([try(block_device_mappings.value.ebs, [])])
@@ -106,8 +108,10 @@ resource "aws_launch_template" "this" {
 
   metadata_options {
     http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
-    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", 1)
-    http_tokens                 = lookup(var.metadata_options, "http_tokens", "required")
+    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", null)
+    http_tokens                 = lookup(var.metadata_options, "http_tokens", "optional")
+    http_protocol_ipv6          = lookup(var.metadata_options, "value.http_protocol_ipv6", null)
+    instance_metadata_tags      = lookup(var.metadata_options, "value.instance_metadata_tags", null)
   }
 
   lifecycle {
@@ -134,7 +138,7 @@ resource "aws_autoscaling_group" "container_instance" {
 
   launch_template {
     id      = aws_launch_template.this[0].id
-    version = "$Latest"
+    version = var.launch_template_version
   }
 
   dynamic "tag" {

@@ -9,10 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add `aws_ecs_capacity_provider` resource
 - feat: Add more options for launch template and autoscaling group
 - feat: have the autoscaling group to be managed by AWS ECS
-- feat: have both ECS Cluster and service to be created by one module
 - feat: add an example that logs to s3 bucket
-- feat: test container insights in complete example
 - feat: option to use cmk to encrypt ec2 ebs volumes
+- FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
+
+## [2.0.1] - 2023-10-09
+- fix: metadata_options block
+- enabled monitoring in complete example
+- disabled Instance Metadata Service Version 1
+- added an ecs service example that runs on ecs-ec2 cluster
+- added no_device, virtual device and encrypted ebs volumes in complete example
 
 ## [2.0.0] - 2023-09-05
 - feat: Added ssm support for launched instances
@@ -68,8 +74,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.1...HEAD
 
+[2.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.1
 [2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.1.0
 [1.0.7]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.0.7
