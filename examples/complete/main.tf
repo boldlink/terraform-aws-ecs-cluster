@@ -17,9 +17,6 @@ module "cluster" {
       logging = var.logging
     }
   }
-  default_capacity_provider_strategy = [
-
-  ]
   create_kms_key      = var.create_kms_key
   key_description     = var.key_description
   create_ec2_instance = var.create_ec2_instance
@@ -84,19 +81,4 @@ module "ecs_service" {
   }
 
   depends_on = [module.cluster]
-}
-
-## ecs cluster with Fargate-spot capacity provider
-
-module "minimum_cluster" {
-  #checkov:skip=CKV_AWS_224:Ensure Cluster logging with CMK
-  source             = "../../"
-  name               = var.name
-  capacity_providers = ["FARGATE_SPOT"]
-  tags = merge(
-    {
-      Name = var.name
-    },
-    var.tags
-  )
 }

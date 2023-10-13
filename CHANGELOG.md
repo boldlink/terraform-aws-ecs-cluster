@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - enabled monitoring in complete example
 - disabled Instance Metadata Service Version 1
 - added an ecs service example that runs on ecs-ec2 cluster
+- added no_device, virtual device and encrypted ebs volumes in complete example
 
 ## [2.0.0] - 2023-09-05
 - feat: Added ssm support for launched instances
