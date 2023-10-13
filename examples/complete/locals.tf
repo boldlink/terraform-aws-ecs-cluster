@@ -20,6 +20,37 @@ locals {
   partition       = data.aws_partition.current.partition
   tags            = merge({ "Name" = var.name }, var.tags)
 
+  block_device_mappings = [
+    {
+      device_name = "/dev/xvda"
+      ebs = {
+        delete_on_termination = true
+        volume_size           = 20
+        volume_type           = "gp2"
+        encrypted             = true
+        kms_key_id            = data.aws_kms_alias.ebs.target_key_arn
+      }
+    },
+    {
+      device_name = "/dev/xvdcz"
+      ebs = {
+        delete_on_termination = true
+        volume_size           = 22
+        volume_type           = "gp2"
+        encrypted             = true
+        kms_key_id            =  data.aws_kms_alias.ebs.target_key_arn
+      }
+    },
+    {
+      device_name = "/dev/sdf"
+      no_device = true
+    },
+    {
+    device_name = "/dev/sdb"
+    virtual_name = "ephemeral0"
+    }
+  ]
+
   default_container_definitions = jsonencode(
     [
       {

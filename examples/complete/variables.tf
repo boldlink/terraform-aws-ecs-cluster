@@ -1,10 +1,10 @@
 variable "name" {
-  description = " Name of the cluster (up to 255 letters, numbers, hyphens, and underscores)"
+  description = "Name of the cluster (up to 255 letters, numbers, hyphens, and underscores)"
   type        = string
   default     = "complete-ecs-cluster-example"
 }
 variable "supporting_resources_name" {
-  description = " Name of the supporting resources name tag"
+  description = "Name of the supporting resources name tag"
   type        = string
   default     = "terraform-aws-ecs-cluster"
 }
@@ -22,7 +22,7 @@ variable "create_ec2_instance" {
 }
 
 variable "instance_type" {
-  description = "(Optional) The type of the instance."
+  description = "The type of the instance."
   type        = string
   default     = "t3.medium"
 }
@@ -45,31 +45,6 @@ variable "logging" {
   default     = "OVERRIDE"
 }
 
-variable "block_device_mappings" {
-  description = "(Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. "
-  type        = list(any)
-  default = [
-    {
-      device_name = "/dev/xvda"
-      ebs = {
-        delete_on_termination = true
-        volume_size           = 20
-        volume_type           = "gp2"
-        encrypted             = true
-      }
-    },
-    {
-      device_name = "/dev/xvdcz"
-      ebs = {
-        delete_on_termination = true
-        volume_size           = 22
-        volume_type           = "gp2"
-        encrypted             = true
-      }
-    }
-  ]
-}
-
 variable "key_description" {
   description = "The description of the key as viewed in AWS console."
   type        = string
@@ -77,7 +52,7 @@ variable "key_description" {
 }
 
 variable "tags" {
-  description = " A map of tags to assign to the object. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
+  description = "A map of tags to assign to the object. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
   type        = map(string)
   default = {
     Environment        = "example"
@@ -98,7 +73,7 @@ variable "create_kms_key" {
 }
 
 variable "monitoring_enabled" {
-  description = "(Optional) The monitoring option for the instance."
+  description = "The monitoring option for the instance."
   type        = bool
   default     = true
 }

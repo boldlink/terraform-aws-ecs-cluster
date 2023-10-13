@@ -2,6 +2,10 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
+data "aws_kms_alias" "ebs" {
+  name = "alias/aws/ebs"
+}
+
 data "aws_ami" "amazon_ecs" {
   most_recent = true
 
