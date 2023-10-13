@@ -33,7 +33,6 @@
 |------|--------|---------|
 | <a name="module_cluster"></a> [cluster](#module\_cluster) | ../../ | n/a |
 | <a name="module_ecs_service"></a> [ecs\_service](#module\_ecs\_service) | boldlink/ecs-service/aws | 1.5.3 |
-| <a name="module_minimum_cluster"></a> [minimum\_cluster](#module\_minimum\_cluster) | ../../ | n/a |
 
 ## Resources
 
