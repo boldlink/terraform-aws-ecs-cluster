@@ -167,7 +167,7 @@ variable "max_size" {
 
 variable "block_device_mappings" {
   description = "(Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. "
-  type        = list(any)
+  type        = any
   default     = []
 }
 
