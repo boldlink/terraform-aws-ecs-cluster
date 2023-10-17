@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: add an example that logs to s3 bucket
 - feat: option to use cmk to encrypt ec2 ebs volumes
 - FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
+- fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
+
+## [2.0.2] - 2023-10-17
+- fix: ecs task role permissions in complete example
+- ecs cluster example that logs exec commands to s3
+- ecs cluster example that has capacity provider configuration
 
 ## [2.0.1] - 2023-10-09
 - fix: metadata_options block
@@ -74,8 +80,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.1...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.2...HEAD
 
+[2.0.2]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.2
 [2.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.1
 [2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/1.1.0
