@@ -5,10 +5,10 @@ locals {
   private_subnet_id = [
     for i in data.aws_subnet.private : i.id
   ]
-  region = data.aws_region.current.name
-  azs    = local.subnet_az[0]
-  vpc_id = data.aws_vpc.supporting.id
-
+  region                = data.aws_region.current.name
+  azs                   = local.subnet_az[0]
+  vpc_id                = data.aws_vpc.supporting.id
+  log_group_name        = "/aws/ecs/${var.name}-log-group"
   ecs_instance_userdata = <<USERDATA
   #!/bin/bash -x
   cat <<'EOF' >> /etc/ecs/ecs.config
@@ -59,18 +59,15 @@ locals {
         cpu       = var.cpu
         memory    = var.memory
         essential = var.essential
-        portMappings = [
-          {
-            containerPort = var.containerport
-            hostPort      = var.hostport
-          }
-        ]
+
+        linuxParameters = {
+          initProcessEnabled = true
+        }
         logConfiguration = {
           logDriver = "awslogs",
           options = {
-            awslogs-group         = "/aws/ecs-service/${var.name}-service",
-            awslogs-region        = local.region,
-            awslogs-stream-prefix = "task"
+            awslogs-group  = local.log_group_name
+            awslogs-region = local.region
           }
         }
       }
@@ -86,7 +83,7 @@ locals {
           "logs:CreateLogStream",
           "logs:PutLogEvents",
         ]
-        Resource = ["arn:${local.partition}:logs:::log-group:${var.name}"]
+        Resource = ["arn:${local.partition}:logs:::log-group:${local.log_group_name}"]
         },
         {
           Effect = "Allow"
@@ -98,7 +95,6 @@ locals {
             "logs:CreateLogStream",
             "logs:PutLogEvents"
           ]
-
           Resource = ["*"]
         }
     ] }
