@@ -43,7 +43,39 @@ To manage instances in isolated subnets without internet connectivity, it is nec
 
 You can use Boldlink VPC Endpoints Terraform module [here](https://github.com/boldlink/terraform-aws-vpc-endpoints/tree/main/examples)
 
-Example available [here](./examples)
+## Running commands in ecs containers using ECS Exec
+With Amazon ECS Exec, you can directly interact with containers without needing to first interact with the host container operating system, open inbound ports, or manage SSH keys. You can use ECS Exec to run commands in or get a shell to a container running on an Amazon EC2 instance or on AWS Fargate. This makes it easier to collect diagnostic information and quickly troubleshoot errors. For example, in a development context, you can use ECS Exec to easily interact with various process in your containers and troubleshoot your applications. And, in production scenarios, you can use it to gain break-glass access to your containers to debug issues.
+
+You can also use ECS Exec to maintain stricter access control policies and audit container access. By selectively turning on this feature, you can control who can run commands and on which tasks they can run those commands. With a log of each command and their output, you can use ECS Exec to audit which tasks were run and you can use CloudTrail to audit who accessed a container.
+
+You can open an interactive shell on your container using the following command.
+
+```
+aws ecs execute-command --cluster <cluster_name> \
+    --task <task_id> \
+    --container <container_name> \
+    --interactive \
+    --command "<command_to_execute> " # e.g /bin/sh
+```
+If your task contains multiple containers, you must specify the container name using the --container flag. Amazon ECS only supports initiating interactive sessions, so you must use the --interactive flag.
+
+### Logging and Auditing using ECS Exec
+Amazon ECS provides a default configuration for logging commands run using ECS Exec by sending logs to CloudWatch Logs using the `awslogs` log driver that's configured in your task definition. If you want to provide a custom configuration, use the module's configuration block.
+
+The logging variable determines the behavior of the logging capability of ECS Exec:
+
+- NONE: logging is turned off
+
+- DEFAULT: logs are sent to the configured `awslogs` driver (If the driver isn't configured, then no log is saved.)
+
+- OVERRIDE: logs are sent to the provided Amazon CloudWatch Logs LogGroup, Amazon S3 bucket, or both
+
+To enable logging, the Amazon ECS task role that's referenced in your task definition needs to have additional permissions. These additional permissions can be added as a policy to the task role. They are different depending on if you direct your logs to Amazon CloudWatch Logs or Amazon S3. For more information, refer [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html)
+
+### Verify using the Amazon ECS Exec Checker
+The Amazon ECS Exec Checker script provides a way to verify and validate that your Amazon ECS cluster and task have met the prerequisites for using the ECS Exec feature. The Exec Checker script verifies both your AWS CLI environment and cluster and tasks are ready for ECS Exec, by calling various APIs on your behalf. The tool requires the latest version of the AWS CLI and that the jq is available. For more information, see [Amazon ECS Exec Checker on GitHub](https://github.com/aws-containers/amazon-ecs-exec-checker).
+
+Examples available [here](./examples)
 
 ## Usage
 **NOTE**: These examples utilize the most recent version of this module. To do so, specify the source without including a version number, as demonstrated below.
@@ -60,9 +92,10 @@ locals {
 }
 
 module "minimum_cluster" {
-  source = "boldlink/ecs-cluster/aws"
-  name   = local.name
-  tags   = local.tags
+  source  = "boldlink/ecs-cluster/aws"
+  version = "<add_latest_version_here>"
+  name    = local.name
+  tags    = local.tags
 }
 ```
 
@@ -128,7 +161,7 @@ No modules.
 | <a name="input_create_ec2_instance"></a> [create\_ec2\_instance](#input\_create\_ec2\_instance) | Whether or not to create a cluster ec2 instance(s) | `bool` | `false` | no |
 | <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Whether or not to create a kms key with this module | `bool` | `false` | no |
 | <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for ECS cluster. | `bool` | `true` | no |
-| <a name="input_default_capacity_provider_strategy"></a> [default\_capacity\_provider\_strategy](#input\_default\_capacity\_provider\_strategy) | (Optional) Set of capacity provider strategies to use by default for the cluster. | `list(map(any))` | `[]` | no |
+| <a name="input_default_capacity_provider_strategy"></a> [default\_capacity\_provider\_strategy](#input\_default\_capacity\_provider\_strategy) | (Optional) Set of capacity provider strategies to use by default for the cluster. | `map(any)` | `{}` | no |
 | <a name="input_delete_on_termination"></a> [delete\_on\_termination](#input\_delete\_on\_termination) | Whether the network interface should be destroyed on instance termination. Defaults to false if not set. | `bool` | `true` | no |
 | <a name="input_deletion_window_in_days"></a> [deletion\_window\_in\_days](#input\_deletion\_window\_in\_days) | (Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30. | `number` | `30` | no |
 | <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | (Optional) The number of Amazon EC2 instances that should be running in the group. | `number` | `1` | no |

@@ -56,8 +56,8 @@ variable "capacity_providers" {
 
 variable "default_capacity_provider_strategy" {
   description = "(Optional) Set of capacity provider strategies to use by default for the cluster."
-  type        = list(map(any))
-  default     = []
+  type        = map(any)
+  default     = {}
 }
 
 # Security Group

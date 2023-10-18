@@ -34,7 +34,7 @@ locals {
           Resource = ["*"]
           Condition = {
             ArnLike = {
-              "kms:EncryptionContext:aws:logs:arn" = ["arn:${local.partition}:logs:${local.region}:${local.account_id}:log-group:${var.name}-log-group"]
+              "kms:EncryptionContext:aws:logs:arn" = ["arn:${local.partition}:logs:${local.region}:${local.account_id}:log-group:/aws/ecs/${var.name}-log-group"]
             }
           }
         }

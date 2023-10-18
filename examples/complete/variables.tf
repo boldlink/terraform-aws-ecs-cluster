@@ -83,7 +83,7 @@ variable "monitoring_enabled" {
 variable "image" {
   type        = string
   description = "Name of image to pull from dockerhub"
-  default     = "boldlink/flaskapp:latest"
+  default     = "nginx"
 }
 
 variable "cpu" {
@@ -102,18 +102,6 @@ variable "essential" {
   type        = bool
   description = "Whether this container is essential"
   default     = true
-}
-
-variable "containerport" {
-  type        = number
-  description = "Specify container port"
-  default     = 5000
-}
-
-variable "hostport" {
-  type        = number
-  description = "Specify host port"
-  default     = 5000
 }
 
 variable "network_mode" {
