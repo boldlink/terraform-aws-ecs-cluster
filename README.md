@@ -53,7 +53,7 @@ You can open an interactive shell on your container using the following command.
 ```
 aws ecs execute-command --cluster <cluster_name> \
     --task <task_id> \
-    --container container-name \
+    --container <container_name> \
     --interactive \
     --command "<command_to_execute> " # e.g /bin/sh
 ```
@@ -92,9 +92,10 @@ locals {
 }
 
 module "minimum_cluster" {
-  source = "boldlink/ecs-cluster/aws"
-  name   = local.name
-  tags   = local.tags
+  source  = "boldlink/ecs-cluster/aws"
+  version = "<add_latest_version_here>"
+  name    = local.name
+  tags    = local.tags
 }
 ```
 
