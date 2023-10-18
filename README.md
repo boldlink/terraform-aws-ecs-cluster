@@ -55,7 +55,7 @@ aws ecs execute-command --cluster <cluster_name> \
     --task <task_id> \
     --container container-name \
     --interactive \
-    --command "<command_to_execute> " # e.g /bin/sh 
+    --command "<command_to_execute> " # e.g /bin/sh
 ```
 If your task contains multiple containers, you must specify the container name using the --container flag. Amazon ECS only supports initiating interactive sessions, so you must use the --interactive flag.
 
