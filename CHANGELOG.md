@@ -6,12 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
-- feat: Add `aws_ecs_capacity_provider` resource
-- feat: Add more options for launch template and autoscaling group
-- feat: have the autoscaling group to be managed by AWS ECS
-- feat: add an example that logs to s3 bucket
 - feat: option to use cmk to encrypt ec2 ebs volumes
-- FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
 ## [3.0.0] - 2025-06-27
@@ -115,8 +110,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.2...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/3.0.0...HEAD
 
+[3.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/3.0.0
 [2.0.2]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.2
 [2.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.1
 [2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
