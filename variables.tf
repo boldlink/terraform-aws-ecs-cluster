@@ -10,6 +10,12 @@ variable "configuration" {
   default     = {}
 }
 
+variable "default_execute_command_logging" {
+  description = "(Optional) Default logging mode for ECS execute command configuration. Valid values are NONE, DEFAULT, OVERRIDE."
+  type        = string
+  default     = "DEFAULT"
+}
+
 variable "container_insights" {
   description = "The value to assign to the setting. Value values are enabled and disabled."
   default     = "enabled"
@@ -26,6 +32,36 @@ variable "install_ssm_agent" {
   type        = bool
   description = "Whether to install ssm agent"
   default     = false
+}
+
+variable "ssm_agent_temp_directory" {
+  description = "(Optional) Temporary directory for SSM agent installation"
+  type        = string
+  default     = "/tmp/ssm"
+}
+
+variable "ssm_agent_version_centos6" {
+  description = "(Optional) SSM agent version for CentOS 6"
+  type        = string
+  default     = "3.0.1479.0"
+}
+
+variable "ssm_agent_s3_urls" {
+  description = "(Optional) S3 URLs for SSM agent downloads by architecture and OS"
+  type        = map(string)
+  default     = {
+    "amazon_linux_x86_64"     = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "amazon_linux_arm64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+    "centos_rhel_x86_64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "centos_rhel_arm64"       = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+    "centos6_x86_64"          = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/3.0.1479.0/linux_amd64/amazon-ssm-agent.rpm"
+    "debian_ubuntu_x86_64"    = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb"
+    "debian_ubuntu_arm64"     = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_arm64/amazon-ssm-agent.deb"
+    "ubuntu_snap_x86_64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_amd64/amazon-ssm-agent.snap"
+    "ubuntu_snap_arm64"       = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_arm64/amazon-ssm-agent.snap"
+    "suse_x86_64"             = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "suse_arm64"              = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+  }
 }
 
 variable "metadata_options" {
@@ -83,6 +119,30 @@ variable "create_security_group" {
   description = "Whether to create a Security Group for ECS cluster."
   default     = true
   type        = bool
+}
+
+variable "security_group_description" {
+  description = "(Optional) Description for the ECS cluster security group"
+  type        = string
+  default     = "ECS cluster Security Group"
+}
+
+variable "security_group_ingress_description" {
+  description = "(Optional) Description for security group ingress rules"
+  type        = string
+  default     = "Allow custom inbound traffic from specific ports."
+}
+
+variable "security_group_egress_description" {
+  description = "(Optional) Description for security group egress rules"
+  type        = string
+  default     = "Allow custom egress traffic"
+}
+
+variable "security_group_default_protocol" {
+  description = "(Optional) Default protocol for security group rules. Use -1 for all protocols"
+  type        = string
+  default     = "-1"
 }
 
 variable "subnet_id" {
@@ -171,6 +231,12 @@ variable "block_device_mappings" {
   default     = []
 }
 
+variable "asg_tags_propagate_at_launch" {
+  description = "(Optional) Whether to propagate ASG tags to instances at launch"
+  type        = bool
+  default     = true
+}
+
 ### KMS Key
 variable "kms_key_id" {
   description = "(Optional) The AWS Key Management Service key ID to encrypt the data between the local client and the container."
@@ -200,6 +266,36 @@ variable "create_kms_key" {
   description = "Whether or not to create a kms key with this module"
   type        = bool
   default     = false
+}
+
+variable "kms_policy_iam_statement_id" {
+  description = "(Optional) Statement ID for IAM user permissions in KMS key policy"
+  type        = string
+  default     = "Enable IAM User Permissions"
+}
+
+variable "kms_policy_cloudwatch_statement_id" {
+  description = "(Optional) Statement ID for CloudWatch logs permissions in KMS key policy"
+  type        = string
+  default     = "AllowCloudWatchLogs"
+}
+
+variable "kms_cloudwatch_actions" {
+  description = "(Optional) List of KMS actions allowed for CloudWatch logs"
+  type        = list(string)
+  default     = ["kms:Encrypt*", "kms:Decrypt*", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:Describe*"]
+}
+
+variable "kms_policy_principal" {
+  description = "(Optional) AWS principal for KMS policy. Use '*' for all principals or specify specific ARNs"
+  type        = string
+  default     = "*"
+}
+
+variable "cloudwatch_log_group_name_pattern" {
+  description = "(Optional) Naming pattern for CloudWatch log group. Use {name} placeholder for cluster name"
+  type        = string
+  default     = "/aws/ecs/{name}-log-group"
 }
 
 variable "launch_template_version" {

@@ -17,7 +17,7 @@ resource "aws_ecs_cluster" "this" {
 
         content {
           kms_key_id = var.create_kms_key ? aws_kms_key.main[0].key_id : var.kms_key_id
-          logging    = lookup(execute_command_configuration.value, "logging", "DEFAULT")
+          logging    = lookup(execute_command_configuration.value, "logging", var.default_execute_command_logging)
 
           dynamic "log_configuration" {
             for_each = try([execute_command_configuration.value.log_configuration], [])

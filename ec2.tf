@@ -3,17 +3,17 @@ resource "aws_security_group" "this" {
   count       = var.create_security_group && var.create_ec2_instance ? 1 : 0
   name        = "${var.name}-security-group"
   vpc_id      = var.vpc_id
-  description = "ECS cluster Security Group"
+  description = var.security_group_description
   tags        = var.tags
 }
 
 resource "aws_security_group_rule" "ingress" {
   for_each          = var.ingress_rules
   type              = "ingress"
-  description       = "Allow custom inbound traffic from specific ports."
+  description       = var.security_group_ingress_description
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
-  protocol          = "-1"
+  protocol          = var.security_group_default_protocol
   cidr_blocks       = lookup(each.value, "cidr_blocks", null)
   security_group_id = join("", aws_security_group.this.*.id)
 }
@@ -21,10 +21,10 @@ resource "aws_security_group_rule" "ingress" {
 resource "aws_security_group_rule" "egress" {
   for_each          = var.egress_rules
   type              = "egress"
-  description       = "Allow custom egress traffic"
+  description       = var.security_group_egress_description
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
-  protocol          = "-1"
+  protocol          = var.security_group_default_protocol
   cidr_blocks       = lookup(each.value, "cidr_blocks", null)
   security_group_id = join("", aws_security_group.this.*.id)
 }
@@ -148,7 +148,7 @@ resource "aws_autoscaling_group" "container_instance" {
     content {
       key                 = tag.key
       value               = tag.value
-      propagate_at_launch = true
+      propagate_at_launch = var.asg_tags_propagate_at_launch
     }
   }
 
@@ -157,7 +157,7 @@ resource "aws_autoscaling_group" "container_instance" {
     content {
       key                 = "AmazonECSManaged"
       value               = true
-      propagate_at_launch = false
+      propagate_at_launch = true
     }
   }
 

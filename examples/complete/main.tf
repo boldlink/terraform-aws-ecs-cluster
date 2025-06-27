@@ -1,15 +1,5 @@
 #### Complete example
 
-# Validation to ensure VPC infrastructure exists
-resource "terraform_data" "vpc_validation" {
-  lifecycle {
-    precondition {
-      condition = local.supporting_vpc_available || local.default_vpc_available
-      error_message = "No VPC found. Please either:\n1. Create supporting resources with: `make tests` from the root directory\n2. Create a default VPC in your AWS account\n3. Manually tag an existing VPC with Name=\"terraform-aws-ecs-cluster\""
-    }
-  }
-}
-
 resource "aws_cloudwatch_log_group" "this" {
   count             = var.logging != "OVERRIDE" ? 0 : 1
   name              = local.log_group_name

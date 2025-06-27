@@ -9,7 +9,7 @@ locals {
       Version = "2012-10-17"
       Statement = [
         {
-          Sid    = "Enable IAM User Permissions"
+          Sid    = var.kms_policy_iam_statement_id
           Effect = "Allow"
           Principal = {
             "AWS" = ["arn:${local.partition}:iam::${local.account_id}:root"]
@@ -18,18 +18,12 @@ locals {
           Resource = ["*"]
         },
         {
-          Sid = "AllowCloudWatchLogs"
-          Action = [
-            "kms:Encrypt*",
-            "kms:Decrypt*",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:Describe*"
-          ]
+          Sid = var.kms_policy_cloudwatch_statement_id
+          Action = var.kms_cloudwatch_actions
           Effect = "Allow"
           Principal = {
             Service = ["logs.${local.region}.${local.dns_suffix}"],
-            AWS     = "*"
+            AWS     = var.kms_policy_principal
           }
           Resource = ["*"]
           Condition = {
