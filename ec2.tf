@@ -34,12 +34,14 @@ resource "aws_iam_instance_profile" "this" {
   count = var.create_ec2_instance ? 1 : 0
   name  = "${var.name}-instance-profile"
   role  = aws_iam_role.cluster_instance[0].name
+  tags  = var.tags
 }
 
 resource "aws_iam_role" "cluster_instance" {
   count              = var.create_ec2_instance ? 1 : 0
   name               = "${var.name}-cluster-instance-role"
   assume_role_policy = data.aws_iam_policy_document.container_instance.json
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_cluster_ec2_role" {
@@ -70,7 +72,7 @@ resource "aws_launch_template" "this" {
     name = aws_iam_instance_profile.this[0].name
   }
 
-  user_data = var.install_ssm_agent ? data.template_cloudinit_config.config.rendered : var.user_data
+  user_data = var.install_ssm_agent ? local.userdata_script : var.user_data
 
   monitoring {
     enabled = var.monitoring_enabled
@@ -150,10 +152,22 @@ resource "aws_autoscaling_group" "container_instance" {
     }
   }
 
+  dynamic "tag" {
+    for_each = var.enable_managed_scaling ? [1] : []
+    content {
+      key                 = "AmazonECSManaged"
+      value               = true
+      propagate_at_launch = false
+    }
+  }
+
   availability_zones = var.availability_zones
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
+  
+  # Enable instance protection when managed scaling is enabled
+  protect_from_scale_in = var.enable_managed_scaling
 
   lifecycle {
     create_before_destroy = true

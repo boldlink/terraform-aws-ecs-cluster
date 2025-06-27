@@ -17,19 +17,9 @@ data "aws_iam_policy_document" "container_instance" {
   }
 }
 
-data "template_cloudinit_config" "config" {
-  gzip          = false
-  base64_encode = true
-
-  # Cloud-config configuration for installing ssm agent.
-  part {
-    content_type = "text/x-shellscript"
-    content      = templatefile("${path.module}/scripts/userdata.sh", {})
-  }
-
-  # Additional script
-  part {
-    content_type = "text/x-shellscript"
-    content      = var.extra_script
-  }
+locals {
+  userdata_script = base64encode(join("\n", [
+    templatefile("${path.module}/scripts/userdata.sh", {}),
+    var.extra_script
+  ]))
 }

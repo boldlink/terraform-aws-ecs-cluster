@@ -59,4 +59,5 @@ resource "aws_kms_key" "main" {
   enable_key_rotation     = var.enable_key_rotation
   policy                  = local.kms_policy
   deletion_window_in_days = var.deletion_window_in_days
+  tags                    = var.tags
 }

@@ -14,6 +14,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
+## [3.0.0] - 2025-06-27
+- feat: Add `aws_ecs_capacity_provider` resource support with managed scaling
+- feat: Add `enable_managed_scaling` variable for ECS-managed Auto Scaling Groups
+- feat: Add `autoscaling_group_arn` and `autoscaling_group_name` outputs
+- feat: Add `AmazonECSManaged` tag support for capacity provider integration
+- feat: Add `protect_from_scale_in` support for Auto Scaling Groups
+- feat: Add comprehensive capacity provider testing (12 scenarios)
+- feat: Add complete metadata options configuration support
+- feat: Add all ECS Exec logging modes (OVERRIDE, DEFAULT, NONE)
+- feat: Add S3 logging with encryption support
+- feat: Add custom user_data testing alongside extra_script
+- feat: Add existing KMS key usage examples
+- feat: Add mixed Fargate + Fargate Spot capacity strategies
+- feat: Add single capacity provider configurations
+- feat: Add ARM64/Apple Silicon Mac compatibility
+- update: ECS service module version from 1.5.3 to 1.12.2
+- update: Module argument names for ECS service compatibility
+- update: Complete example variable coverage from ~60% to 100%
+- update: Shortened module names to fix IAM role 64-character limits
+- update: Enhanced VPC detection with fallback to default VPC
+- update: Improved error messages with actionable solutions
+- fix: Deprecated `data.aws_region.current.name` to `data.aws_region.current.region`
+- fix: Removed deprecated `hashicorp/template` provider dependency
+- fix: Replaced `template_cloudinit_config` with built-in Terraform functions
+- fix: Added missing tags to KMS key, IAM instance profile, and IAM role
+- fix: ECS capacity provider managed termination protection requirements
+- fix: Mixed capacity provider strategy AWS API validation errors
+- fix: Empty collection errors in locals with safe subnet handling
+- fix: Duplicate `enable_managed_scaling` attribute declaration
+- fix: Resource reference conflicts in VPC creation logic
+- fix: IAM role name length exceeding AWS limits
+- remove: Template provider dependency and references
+- remove: VPC creation resources causing reference conflicts
+- remove: Deprecated AWS provider attribute usage
+
 ## [2.0.2] - 2023-10-17
 - fix: ecs task role permissions in complete example
 - ecs cluster example that logs exec commands to s3

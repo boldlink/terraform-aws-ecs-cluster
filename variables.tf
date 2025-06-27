@@ -207,3 +207,9 @@ variable "launch_template_version" {
   description = "The version of the launch template"
   default     = "$Latest"
 }
+
+variable "enable_managed_scaling" {
+  type        = bool
+  description = "Whether to enable ECS managed scaling for the Auto Scaling Group"
+  default     = false
+}

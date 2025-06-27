@@ -1,7 +1,7 @@
 variable "name" {
   description = "Name of the cluster (up to 255 letters, numbers, hyphens, and underscores)"
   type        = string
-  default     = "complete-ecs-cluster-example"
+  default     = "complete-ecs-example"
 }
 variable "supporting_resources_name" {
   description = "Name of the supporting resources name tag"
@@ -139,5 +139,59 @@ variable "requires_compatibilities" {
 variable "install_ssm_agent" {
   type        = bool
   description = "Whether to install ssm agent"
+  default     = true
+}
+
+variable "container_insights" {
+  description = "The value to assign to the setting. Valid values are enabled and disabled."
+  type        = string
+  default     = "enabled"
+}
+
+variable "enable_key_rotation" {
+  description = "Specifies whether key rotation is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "deletion_window_in_days" {
+  description = "The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key."
+  type        = number
+  default     = 7
+}
+
+variable "desired_capacity" {
+  description = "The number of Amazon EC2 instances that should be running in the group."
+  type        = number
+  default     = 2
+}
+
+variable "min_size" {
+  description = "The minimum size of the Auto Scaling Group."
+  type        = number
+  default     = 1
+}
+
+variable "key_name" {
+  description = "The key name to use for the instance."
+  type        = string
+  default     = null
+}
+
+variable "delete_on_termination" {
+  description = "Whether the network interface should be destroyed on instance termination."
+  type        = bool
+  default     = true
+}
+
+variable "launch_template_version" {
+  description = "The version of the launch template"
+  type        = string
+  default     = "$Latest"
+}
+
+variable "enable_managed_scaling" {
+  description = "Whether to enable ECS managed scaling for the Auto Scaling Group"
+  type        = bool
   default     = true
 }
