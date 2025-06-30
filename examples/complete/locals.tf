@@ -2,25 +2,25 @@ locals {
   # Check what VPC infrastructure is available
   supporting_vpc_available = length(data.aws_vpcs.supporting.ids) > 0
   default_vpc_available    = length(data.aws_vpcs.default.ids) > 0
-  
+
   # Determine VPC ID and subnet IDs based on availability
   vpc_id = local.supporting_vpc_available ? data.aws_vpcs.supporting.ids[0] : (
     local.default_vpc_available ? data.aws_vpcs.default.ids[0] : ""
   )
-  
+
   subnet_ids = local.supporting_vpc_available ? data.aws_subnets.supporting_private[0].ids : (
     local.default_vpc_available ? data.aws_subnets.default[0].ids : []
   )
-  
+
   # Only create subnet data if we have valid subnet IDs
   subnet_az = length(local.subnet_ids) > 0 ? [
     for az in data.aws_subnet.private : az.availability_zone
   ] : []
-  
+
   private_subnet_id = length(local.subnet_ids) > 0 ? [
     for i in data.aws_subnet.private : i.id
   ] : []
-  
+
   region                = data.aws_region.current.region
   azs                   = length(local.subnet_az) > 0 ? local.subnet_az[0] : data.aws_availability_zones.available.names[0]
   log_group_name        = "/aws/ecs/${var.name}-log-group"

@@ -20,9 +20,9 @@ data "aws_iam_policy_document" "container_instance" {
 locals {
   userdata_script = base64encode(join("\n", [
     templatefile("${path.module}/scripts/userdata.sh", {
-      ssm_temp_dir                = var.ssm_agent_temp_directory
-      ssm_agent_version_centos6   = var.ssm_agent_version_centos6
-      ssm_urls                    = var.ssm_agent_s3_urls
+      ssm_temp_dir              = var.ssm_agent_temp_directory
+      ssm_agent_version_centos6 = var.ssm_agent_version_centos6
+      ssm_urls                  = var.ssm_agent_s3_urls
     }),
     var.extra_script
   ]))

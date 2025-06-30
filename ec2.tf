@@ -165,7 +165,7 @@ resource "aws_autoscaling_group" "container_instance" {
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
-  
+
   # Enable instance protection when managed scaling is enabled
   protect_from_scale_in = var.enable_managed_scaling
 

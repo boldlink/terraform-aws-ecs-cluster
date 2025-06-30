@@ -20,14 +20,14 @@ module "cluster" {
       logging = var.logging
     }
   }
-  container_insights          = var.container_insights
-  create_kms_key              = var.create_kms_key
-  enable_key_rotation         = var.enable_key_rotation
-  deletion_window_in_days     = var.deletion_window_in_days
-  key_description             = var.key_description
-  create_ec2_instance         = var.create_ec2_instance
-  subnet_id                   = local.private_subnets[0]
-  vpc_id                      = local.vpc_id
+  container_insights      = var.container_insights
+  create_kms_key          = var.create_kms_key
+  enable_key_rotation     = var.enable_key_rotation
+  deletion_window_in_days = var.deletion_window_in_days
+  key_description         = var.key_description
+  create_ec2_instance     = var.create_ec2_instance
+  subnet_id               = local.private_subnets[0]
+  vpc_id                  = local.vpc_id
   ingress_rules = {
     default = {
       from_port   = 0
@@ -57,11 +57,11 @@ module "cluster" {
   launch_template_version     = var.launch_template_version
   monitoring_enabled          = var.monitoring_enabled
   metadata_options = {
-    http_endpoint                   = "enabled"
-    http_tokens                     = "required"
-    http_put_response_hop_limit     = 2
-    http_protocol_ipv6              = "disabled"
-    instance_metadata_tags          = "enabled"
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 2
+    http_protocol_ipv6          = "disabled"
+    instance_metadata_tags      = "enabled"
   }
   tags = merge(
     {
@@ -247,7 +247,7 @@ resource "aws_ecs_capacity_provider" "ec2" {
       maximum_scaling_step_size = 5
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
-      target_capacity          = 80
+      target_capacity           = 80
       instance_warmup_period    = 300
     }
   }
@@ -258,12 +258,12 @@ resource "aws_ecs_capacity_provider" "ec2" {
 module "cluster_ec2_capacity" {
   source = "../../"
   name   = "${var.name}-ec2"
-  
-  create_ec2_instance         = var.create_ec2_instance
-  add_capacity_providers      = var.create_ec2_instance
-  capacity_providers          = var.create_ec2_instance ? [aws_ecs_capacity_provider.ec2[0].name] : ["FARGATE"]
-  enable_managed_scaling      = var.create_ec2_instance
-  
+
+  create_ec2_instance    = var.create_ec2_instance
+  add_capacity_providers = var.create_ec2_instance
+  capacity_providers     = var.create_ec2_instance ? [aws_ecs_capacity_provider.ec2[0].name] : ["FARGATE"]
+  enable_managed_scaling = var.enable_managed_scaling
+
   default_capacity_provider_strategy = var.create_ec2_instance ? {
     ec2_only = {
       base              = 1
@@ -271,16 +271,16 @@ module "cluster_ec2_capacity" {
       capacity_provider = aws_ecs_capacity_provider.ec2[0].name
     }
   } : {}
-  
-  subnet_id              = local.private_subnets[0]
-  vpc_id                 = local.vpc_id
-  image_id               = data.aws_ami.amazon_ecs.image_id
-  instance_type          = var.instance_type
-  availability_zones     = [local.azs]
-  desired_capacity       = 2
-  min_size               = 1
-  max_size               = 5
-  
+
+  subnet_id          = local.private_subnets[0]
+  vpc_id             = local.vpc_id
+  image_id           = data.aws_ami.amazon_ecs.image_id
+  instance_type      = var.instance_type
+  availability_zones = [local.azs]
+  desired_capacity   = 2
+  min_size           = 1
+  max_size           = 5
+
   tags = merge(
     {
       Name = "${var.name}-ec2"
@@ -302,7 +302,7 @@ resource "aws_ecs_capacity_provider" "mixed" {
       maximum_scaling_step_size = 10
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
-      target_capacity          = 100
+      target_capacity           = 100
     }
   }
 
@@ -312,20 +312,20 @@ resource "aws_ecs_capacity_provider" "mixed" {
 module "cluster_mixed_capacity" {
   source = "../../"
   name   = "${var.name}-mixed"
-  
+
   create_ec2_instance    = var.create_ec2_instance
   add_capacity_providers = true
-  capacity_providers     = var.create_ec2_instance ? [
+  capacity_providers = var.create_ec2_instance ? [
     aws_ecs_capacity_provider.mixed[0].name
   ] : ["FARGATE", "FARGATE_SPOT"]
-  
+
   default_capacity_provider_strategy = var.create_ec2_instance ? {
     ec2_only = {
       base              = 1
       weight            = 100
       capacity_provider = aws_ecs_capacity_provider.mixed[0].name
     }
-  } : {
+    } : {
     fargate = {
       base              = 1
       weight            = 1
@@ -337,14 +337,14 @@ module "cluster_mixed_capacity" {
       capacity_provider = "FARGATE_SPOT"
     }
   }
-  
+
   subnet_id              = local.private_subnets[0]
   vpc_id                 = local.vpc_id
   image_id               = data.aws_ami.amazon_ecs.image_id
   instance_type          = var.instance_type
   availability_zones     = [local.azs]
-  enable_managed_scaling = var.create_ec2_instance
-  
+  enable_managed_scaling = var.enable_managed_scaling
+
   tags = merge(
     {
       Name = "${var.name}-mixed"
@@ -357,10 +357,10 @@ module "cluster_mixed_capacity" {
 module "cluster_fargate_only" {
   source = "../../"
   name   = "${var.name}-fargate"
-  
+
   add_capacity_providers = true
   capacity_providers     = ["FARGATE"]
-  
+
   default_capacity_provider_strategy = {
     fargate_only = {
       base              = 1
@@ -368,7 +368,7 @@ module "cluster_fargate_only" {
       capacity_provider = "FARGATE"
     }
   }
-  
+
   tags = merge(
     {
       Name = "${var.name}-fargate"
@@ -381,10 +381,10 @@ module "cluster_fargate_only" {
 module "cluster_fargate_mixed" {
   source = "../../"
   name   = "${var.name}-fargate-mixed"
-  
+
   add_capacity_providers = true
   capacity_providers     = ["FARGATE", "FARGATE_SPOT"]
-  
+
   default_capacity_provider_strategy = {
     fargate = {
       base              = 1
@@ -397,7 +397,7 @@ module "cluster_fargate_mixed" {
       capacity_provider = "FARGATE_SPOT"
     }
   }
-  
+
   tags = merge(
     {
       Name = "${var.name}-fargate-mixed"
@@ -410,10 +410,10 @@ module "cluster_fargate_mixed" {
 module "cluster_fargate_spot_only" {
   source = "../../"
   name   = "${var.name}-spot"
-  
+
   add_capacity_providers = true
   capacity_providers     = ["FARGATE_SPOT"]
-  
+
   default_capacity_provider_strategy = {
     fargate_spot_only = {
       base              = 0
@@ -421,7 +421,7 @@ module "cluster_fargate_spot_only" {
       capacity_provider = "FARGATE_SPOT"
     }
   }
-  
+
   tags = merge(
     {
       Name = "${var.name}-spot"
@@ -434,11 +434,11 @@ module "cluster_fargate_spot_only" {
 module "cluster_no_default_strategy" {
   source = "../../"
   name   = "${var.name}-no-strategy"
-  
+
   add_capacity_providers = true
   capacity_providers     = ["FARGATE", "FARGATE_SPOT"]
   # Intentionally no default_capacity_provider_strategy
-  
+
   tags = merge(
     {
       Name = "${var.name}-no-strategy"
@@ -451,10 +451,10 @@ module "cluster_no_default_strategy" {
 module "cluster_default_providers" {
   source = "../../"
   name   = "${var.name}-defaults"
-  
+
   add_capacity_providers = false
   # Uses module default capacity_providers = ["FARGATE"]
-  
+
   tags = merge(
     {
       Name = "${var.name}-defaults"

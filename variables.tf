@@ -49,18 +49,18 @@ variable "ssm_agent_version_centos6" {
 variable "ssm_agent_s3_urls" {
   description = "(Optional) S3 URLs for SSM agent downloads by architecture and OS"
   type        = map(string)
-  default     = {
-    "amazon_linux_x86_64"     = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
-    "amazon_linux_arm64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
-    "centos_rhel_x86_64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
-    "centos_rhel_arm64"       = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
-    "centos6_x86_64"          = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/3.0.1479.0/linux_amd64/amazon-ssm-agent.rpm"
-    "debian_ubuntu_x86_64"    = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb"
-    "debian_ubuntu_arm64"     = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_arm64/amazon-ssm-agent.deb"
-    "ubuntu_snap_x86_64"      = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_amd64/amazon-ssm-agent.snap"
-    "ubuntu_snap_arm64"       = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_arm64/amazon-ssm-agent.snap"
-    "suse_x86_64"             = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
-    "suse_arm64"              = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+  default = {
+    "amazon_linux_x86_64"  = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "amazon_linux_arm64"   = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+    "centos_rhel_x86_64"   = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "centos_rhel_arm64"    = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
+    "centos6_x86_64"       = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/3.0.1479.0/linux_amd64/amazon-ssm-agent.rpm"
+    "debian_ubuntu_x86_64" = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb"
+    "debian_ubuntu_arm64"  = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_arm64/amazon-ssm-agent.deb"
+    "ubuntu_snap_x86_64"   = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_amd64/amazon-ssm-agent.snap"
+    "ubuntu_snap_arm64"    = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_arm64/amazon-ssm-agent.snap"
+    "suse_x86_64"          = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm"
+    "suse_arm64"           = "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm"
   }
 }
 
@@ -292,11 +292,6 @@ variable "kms_policy_principal" {
   default     = "*"
 }
 
-variable "cloudwatch_log_group_name_pattern" {
-  description = "(Optional) Naming pattern for CloudWatch log group. Use {name} placeholder for cluster name"
-  type        = string
-  default     = "/aws/ecs/{name}-log-group"
-}
 
 variable "launch_template_version" {
   type        = string
@@ -309,3 +304,4 @@ variable "enable_managed_scaling" {
   description = "Whether to enable ECS managed scaling for the Auto Scaling Group"
   default     = false
 }
+

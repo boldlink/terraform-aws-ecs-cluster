@@ -18,7 +18,7 @@ locals {
           Resource = ["*"]
         },
         {
-          Sid = var.kms_policy_cloudwatch_statement_id
+          Sid    = var.kms_policy_cloudwatch_statement_id
           Action = var.kms_cloudwatch_actions
           Effect = "Allow"
           Principal = {
