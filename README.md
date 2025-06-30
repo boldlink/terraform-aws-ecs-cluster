@@ -117,7 +117,7 @@ module "minimum_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.0.0 |
 
 ## Modules
 
@@ -149,21 +149,35 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_add_capacity_providers"></a> [add\_capacity\_providers](#input\_add\_capacity\_providers) | Whether or not to deploy aws\_cluster\_capacity\_providers resource | `bool` | `false` | no |
+| <a name="input_asg_tags_propagate_at_launch"></a> [asg\_tags\_propagate\_at\_launch](#input\_asg\_tags\_propagate\_at\_launch) | (Optional) Whether to propagate ASG tags to instances at launch | `bool` | `true` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Associate a public ip address with the network interface. Boolean value. | `bool` | `true` | no |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | (Optional) A list of one or more availability zones for the group. Used for EC2-Classic, attaching a network interface via id from a launch template | `list(string)` | `[]` | no |
 | <a name="input_block_device_mappings"></a> [block\_device\_mappings](#input\_block\_device\_mappings) | (Optional) Specify volumes to attach to the instance besides the volumes specified by the AMI. | `any` | `[]` | no |
 | <a name="input_capacity_providers"></a> [capacity\_providers](#input\_capacity\_providers) | (Optional) Set of names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE\_SPOT. | `list(string)` | <pre>[<br>  "FARGATE"<br>]</pre> | no |
 | <a name="input_configuration"></a> [configuration](#input\_configuration) | (Optional) The execute command configuration for the cluster. Detailed below. | `any` | `{}` | no |
 | <a name="input_container_insights"></a> [container\_insights](#input\_container\_insights) | The value to assign to the setting. Value values are enabled and disabled. | `string` | `"enabled"` | no |
+| <a name="input_create_default_root_volume"></a> [create\_default\_root\_volume](#input\_create\_default\_root\_volume) | (Optional) Whether to create a default root volume with secure defaults if no block\_device\_mappings are specified | `bool` | `false` | no |
 | <a name="input_create_ec2_instance"></a> [create\_ec2\_instance](#input\_create\_ec2\_instance) | Whether or not to create a cluster ec2 instance(s) | `bool` | `false` | no |
 | <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Whether or not to create a kms key with this module | `bool` | `false` | no |
 | <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for ECS cluster. | `bool` | `true` | no |
 | <a name="input_default_capacity_provider_strategy"></a> [default\_capacity\_provider\_strategy](#input\_default\_capacity\_provider\_strategy) | (Optional) Set of capacity provider strategies to use by default for the cluster. | `map(any)` | `{}` | no |
+| <a name="input_default_ebs_encrypted"></a> [default\_ebs\_encrypted](#input\_default\_ebs\_encrypted) | (Optional) Whether to encrypt EBS volumes by default | `bool` | `true` | no |
+| <a name="input_default_ebs_kms_key_id"></a> [default\_ebs\_kms\_key\_id](#input\_default\_ebs\_kms\_key\_id) | (Optional) Default KMS key ID for EBS encryption. Uses aws/ebs if not specified | `string` | `null` | no |
+| <a name="input_default_ebs_volume_type"></a> [default\_ebs\_volume\_type](#input\_default\_ebs\_volume\_type) | (Optional) Default EBS volume type for block device mappings | `string` | `"gp3"` | no |
+| <a name="input_default_execute_command_logging"></a> [default\_execute\_command\_logging](#input\_default\_execute\_command\_logging) | (Optional) Default logging mode for ECS execute command configuration. Valid values are NONE, DEFAULT, OVERRIDE. | `string` | `"DEFAULT"` | no |
+| <a name="input_default_root_device_name"></a> [default\_root\_device\_name](#input\_default\_root\_device\_name) | (Optional) Default root device name when creating default root volume | `string` | `"/dev/xvda"` | no |
+| <a name="input_default_root_volume_size"></a> [default\_root\_volume\_size](#input\_default\_root\_volume\_size) | (Optional) Default root volume size in GB when creating default root volume | `number` | `20` | no |
 | <a name="input_delete_on_termination"></a> [delete\_on\_termination](#input\_delete\_on\_termination) | Whether the network interface should be destroyed on instance termination. Defaults to false if not set. | `bool` | `true` | no |
 | <a name="input_deletion_window_in_days"></a> [deletion\_window\_in\_days](#input\_deletion\_window\_in\_days) | (Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30. | `number` | `30` | no |
 | <a name="input_desired_capacity"></a> [desired\_capacity](#input\_desired\_capacity) | (Optional) The number of Amazon EC2 instances that should be running in the group. | `number` | `1` | no |
+| <a name="input_ec2_volume_sizes"></a> [ec2\_volume\_sizes](#input\_ec2\_volume\_sizes) | (Optional) Default volume sizes in GB for different device types | `map(number)` | <pre>{<br>  "data_volume": 50,<br>  "log_volume": 10,<br>  "root_volume": 20<br>}</pre> | no |
+| <a name="input_ecs_managed_tag_key"></a> [ecs\_managed\_tag\_key](#input\_ecs\_managed\_tag\_key) | (Optional) Tag key for ECS managed scaling. AWS requires this to be 'AmazonECSManaged' | `string` | `"AmazonECSManaged"` | no |
+| <a name="input_ecs_managed_tag_propagate_at_launch"></a> [ecs\_managed\_tag\_propagate\_at\_launch](#input\_ecs\_managed\_tag\_propagate\_at\_launch) | (Optional) Whether to propagate the ECS managed tag to instances at launch | `bool` | `true` | no |
+| <a name="input_ecs_managed_tag_value"></a> [ecs\_managed\_tag\_value](#input\_ecs\_managed\_tag\_value) | (Optional) Tag value for ECS managed scaling. AWS requires this to be true | `bool` | `true` | no |
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | (Optional) Egress rules to add to the security group | `any` | `{}` | no |
+| <a name="input_enable_default_ebs_configuration"></a> [enable\_default\_ebs\_configuration](#input\_enable\_default\_ebs\_configuration) | (Optional) Whether to apply default EBS configuration (gp3, encryption) to block device mappings that don't specify these settings | `bool` | `true` | no |
 | <a name="input_enable_key_rotation"></a> [enable\_key\_rotation](#input\_enable\_key\_rotation) | (Optional) Specifies whether key rotation is enabled. Defaults to false. | `bool` | `false` | no |
+| <a name="input_enable_managed_scaling"></a> [enable\_managed\_scaling](#input\_enable\_managed\_scaling) | Whether to enable ECS managed scaling for the Auto Scaling Group | `bool` | `false` | no |
 | <a name="input_extra_script"></a> [extra\_script](#input\_extra\_script) | The name of the extra script | `string` | `""` | no |
 | <a name="input_image_id"></a> [image\_id](#input\_image\_id) | (Optional) The AMI from which to launch the instance. | `string` | `null` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | (Optional) Ingress rules to add to the security group | `any` | `{}` | no |
@@ -171,13 +185,27 @@ No modules.
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The type of the instance. | `string` | `null` | no |
 | <a name="input_key_description"></a> [key\_description](#input\_key\_description) | The description of the key as viewed in AWS console. | `string` | `null` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | (Optional) The key name to use for the instance. | `string` | `null` | no |
+| <a name="input_kms_cloudwatch_actions"></a> [kms\_cloudwatch\_actions](#input\_kms\_cloudwatch\_actions) | (Optional) List of KMS actions allowed for CloudWatch logs | `list(string)` | <pre>[<br>  "kms:Encrypt*",<br>  "kms:Decrypt*",<br>  "kms:ReEncrypt*",<br>  "kms:GenerateDataKey*",<br>  "kms:Describe*"<br>]</pre> | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | (Optional) The AWS Key Management Service key ID to encrypt the data between the local client and the container. | `string` | `null` | no |
+| <a name="input_kms_policy_cloudwatch_statement_id"></a> [kms\_policy\_cloudwatch\_statement\_id](#input\_kms\_policy\_cloudwatch\_statement\_id) | (Optional) Statement ID for CloudWatch logs permissions in KMS key policy | `string` | `"AllowCloudWatchLogs"` | no |
+| <a name="input_kms_policy_iam_statement_id"></a> [kms\_policy\_iam\_statement\_id](#input\_kms\_policy\_iam\_statement\_id) | (Optional) Statement ID for IAM user permissions in KMS key policy | `string` | `"Enable IAM User Permissions"` | no |
+| <a name="input_kms_policy_principal"></a> [kms\_policy\_principal](#input\_kms\_policy\_principal) | (Optional) AWS principal for KMS policy. Use '*' for all principals or specify specific ARNs | `string` | `"*"` | no |
 | <a name="input_launch_template_version"></a> [launch\_template\_version](#input\_launch\_template\_version) | The version of the launch template | `string` | `"$Latest"` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | (Required) The maximum size of the Auto Scaling Group | `number` | `10` | no |
 | <a name="input_metadata_options"></a> [metadata\_options](#input\_metadata\_options) | Customize the metadata options of the instance | `map(string)` | `{}` | no |
+| <a name="input_metadata_options_defaults"></a> [metadata\_options\_defaults](#input\_metadata\_options\_defaults) | (Optional) Default values for EC2 instance metadata options | `map(string)` | <pre>{<br>  "http_endpoint": "enabled",<br>  "http_tokens": "optional"<br>}</pre> | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | (Required) The minimum size of the Auto Scaling Group. | `number` | `1` | no |
 | <a name="input_monitoring_enabled"></a> [monitoring\_enabled](#input\_monitoring\_enabled) | (Optional) The monitoring option for the instance. | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | (Required) Name of the cluster (up to 255 letters, numbers, hyphens, and underscores) | `string` | n/a | yes |
+| <a name="input_protect_from_scale_in_independent"></a> [protect\_from\_scale\_in\_independent](#input\_protect\_from\_scale\_in\_independent) | (Optional) Whether to enable scale-in protection independently of managed scaling | `bool` | `null` | no |
+| <a name="input_resource_name_suffix"></a> [resource\_name\_suffix](#input\_resource\_name\_suffix) | (Optional) Name suffixes for resources created by the module | `map(string)` | <pre>{<br>  "autoscaling_group": "-asg",<br>  "iam_role": "-cluster-instance-role",<br>  "instance_profile": "-instance-profile",<br>  "launch_template": "-launch-template",<br>  "security_group": "-security-group"<br>}</pre> | no |
+| <a name="input_security_group_default_protocol"></a> [security\_group\_default\_protocol](#input\_security\_group\_default\_protocol) | (Optional) Default protocol for security group rules. Use -1 for all protocols | `string` | `"-1"` | no |
+| <a name="input_security_group_description"></a> [security\_group\_description](#input\_security\_group\_description) | (Optional) Description for the ECS cluster security group | `string` | `"ECS cluster Security Group"` | no |
+| <a name="input_security_group_egress_description"></a> [security\_group\_egress\_description](#input\_security\_group\_egress\_description) | (Optional) Description for security group egress rules | `string` | `"Allow custom egress traffic"` | no |
+| <a name="input_security_group_ingress_description"></a> [security\_group\_ingress\_description](#input\_security\_group\_ingress\_description) | (Optional) Description for security group ingress rules | `string` | `"Allow custom inbound traffic from specific ports."` | no |
+| <a name="input_ssm_agent_s3_urls"></a> [ssm\_agent\_s3\_urls](#input\_ssm\_agent\_s3\_urls) | (Optional) S3 URLs for SSM agent downloads by architecture and OS | `map(string)` | <pre>{<br>  "amazon_linux_arm64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm",<br>  "amazon_linux_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm",<br>  "centos6_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/3.0.1479.0/linux_amd64/amazon-ssm-agent.rpm",<br>  "centos_rhel_arm64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm",<br>  "centos_rhel_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm",<br>  "debian_ubuntu_arm64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_arm64/amazon-ssm-agent.deb",<br>  "debian_ubuntu_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb",<br>  "suse_arm64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_arm64/amazon-ssm-agent.rpm",<br>  "suse_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm",<br>  "ubuntu_snap_arm64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_arm64/amazon-ssm-agent.snap",<br>  "ubuntu_snap_x86_64": "https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/ubuntu_amd64/amazon-ssm-agent.snap"<br>}</pre> | no |
+| <a name="input_ssm_agent_temp_directory"></a> [ssm\_agent\_temp\_directory](#input\_ssm\_agent\_temp\_directory) | (Optional) Temporary directory for SSM agent installation | `string` | `"/tmp/ssm"` | no |
+| <a name="input_ssm_agent_version_centos6"></a> [ssm\_agent\_version\_centos6](#input\_ssm\_agent\_version\_centos6) | (Optional) SSM agent version for CentOS 6 | `string` | `"3.0.1479.0"` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The subnet ID to launch the instances in | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Key-value map of resource tags. | `map(string)` | `{}` | no |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | (Optional) The base64-encoded user data to provide when launching the instance. | `string` | `null` | no |
@@ -188,6 +216,8 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | ARN that identifies the cluster. |
+| <a name="output_autoscaling_group_arn"></a> [autoscaling\_group\_arn](#output\_autoscaling\_group\_arn) | ARN of the Auto Scaling Group |
+| <a name="output_autoscaling_group_name"></a> [autoscaling\_group\_name](#output\_autoscaling\_group\_name) | Name of the Auto Scaling Group |
 | <a name="output_id"></a> [id](#output\_id) | ARN that identifies the cluster. |
 | <a name="output_key_arn"></a> [key\_arn](#output\_key\_arn) | The Amazon Resource Name (ARN) of the key. |
 | <a name="output_key_id"></a> [key\_id](#output\_key\_id) | The globally unique identifier for the key. |

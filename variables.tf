@@ -401,4 +401,3 @@ variable "ec2_volume_sizes" {
     log_volume  = 10
   }
 }
-
