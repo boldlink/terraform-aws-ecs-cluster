@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: option to use cmk to encrypt ec2 ebs volumes
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
-## [3.0.0] - 2025-06-27
+## [3.0.0] - 2025-06-30
 - feat: Add `aws_ecs_capacity_provider` resource support with managed scaling
 - feat: Add `enable_managed_scaling` variable for ECS-managed Auto Scaling Groups
 - feat: Add `autoscaling_group_arn` and `autoscaling_group_name` outputs
@@ -43,6 +43,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove: Template provider dependency and references
 - remove: VPC creation resources causing reference conflicts
 - remove: Deprecated AWS provider attribute usage
+- feat: Add configurable ECS execute command logging mode variable
+- feat: Add configurable KMS policy statement IDs and permissions
+- feat: Add configurable security group descriptions and protocols
+- feat: Add configurable ASG tag propagation settings
+- feat: Add configurable SSM agent installation URLs and versions
+- feat: Add configurable SSM agent temporary directory path
+- fix: AmazonECSManaged tag propagation setting for ECS managed scaling
+- fix: Module hardcoded values moved to configurable variables with defaults
 
 ## [2.0.2] - 2023-10-17
 - fix: ecs task role permissions in complete example
