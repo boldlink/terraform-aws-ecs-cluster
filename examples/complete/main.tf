@@ -115,7 +115,7 @@ resource "aws_iam_role_policy" "task_role_policy" {
 module "cluster_bucket" {
   count         = var.logging != "OVERRIDE" ? 0 : 1
   source        = "boldlink/s3/aws"
-  version       = "2.3.1"
+  version       = "2.5.1"
   bucket        = "${var.name}-with-s3"
   force_destroy = true
   tags          = merge({ "Name" = "${var.name}-with-s3" }, var.tags)

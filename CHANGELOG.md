@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
-- feat: option to use cmk to encrypt ec2 ebs volumes
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
 ## [3.0.0] - 2025-06-30
@@ -51,6 +50,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add configurable SSM agent temporary directory path
 - fix: AmazonECSManaged tag propagation setting for ECS managed scaling
 - fix: Module hardcoded values moved to configurable variables with defaults
+- feat: Add configurable ECS managed tag key, value, and propagation settings
+- feat: Add default EBS volume type (gp3) and encryption configuration
+- feat: Add configurable EBS KMS key support (aws/ebs or custom CMK)
+- feat: Add ec2_volume_sizes variable for standardized volume sizing
+- feat: Add automatic default root volume creation with secure defaults
+- feat: Add configurable resource naming suffixes for all AWS resources
+- feat: Add configurable EC2 metadata options defaults
+- feat: Add independent scale-in protection control
+- feat: option to use cmk to encrypt ec2 ebs volumes
 
 ## [2.0.2] - 2023-10-17
 - fix: ecs task role permissions in complete example

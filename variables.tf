@@ -305,3 +305,100 @@ variable "enable_managed_scaling" {
   default     = false
 }
 
+variable "ecs_managed_tag_key" {
+  description = "(Optional) Tag key for ECS managed scaling. AWS requires this to be 'AmazonECSManaged'"
+  type        = string
+  default     = "AmazonECSManaged"
+}
+
+variable "ecs_managed_tag_value" {
+  description = "(Optional) Tag value for ECS managed scaling. AWS requires this to be true"
+  type        = bool
+  default     = true
+}
+
+variable "ecs_managed_tag_propagate_at_launch" {
+  description = "(Optional) Whether to propagate the ECS managed tag to instances at launch"
+  type        = bool
+  default     = true
+}
+
+variable "resource_name_suffix" {
+  description = "(Optional) Name suffixes for resources created by the module"
+  type        = map(string)
+  default = {
+    security_group    = "-security-group"
+    instance_profile  = "-instance-profile"
+    iam_role          = "-cluster-instance-role"
+    launch_template   = "-launch-template"
+    autoscaling_group = "-asg"
+  }
+}
+
+variable "metadata_options_defaults" {
+  description = "(Optional) Default values for EC2 instance metadata options"
+  type        = map(string)
+  default = {
+    http_endpoint = "enabled"
+    http_tokens   = "optional"
+  }
+}
+
+variable "protect_from_scale_in_independent" {
+  description = "(Optional) Whether to enable scale-in protection independently of managed scaling"
+  type        = bool
+  default     = null
+}
+
+variable "default_ebs_volume_type" {
+  description = "(Optional) Default EBS volume type for block device mappings"
+  type        = string
+  default     = "gp3"
+}
+
+variable "default_ebs_encrypted" {
+  description = "(Optional) Whether to encrypt EBS volumes by default"
+  type        = bool
+  default     = true
+}
+
+variable "default_ebs_kms_key_id" {
+  description = "(Optional) Default KMS key ID for EBS encryption. Uses aws/ebs if not specified"
+  type        = string
+  default     = null
+}
+
+variable "enable_default_ebs_configuration" {
+  description = "(Optional) Whether to apply default EBS configuration (gp3, encryption) to block device mappings that don't specify these settings"
+  type        = bool
+  default     = true
+}
+
+variable "create_default_root_volume" {
+  description = "(Optional) Whether to create a default root volume with secure defaults if no block_device_mappings are specified"
+  type        = bool
+  default     = false
+}
+
+variable "default_root_volume_size" {
+  description = "(Optional) Default root volume size in GB when creating default root volume"
+  type        = number
+  default     = 20
+}
+
+variable "default_root_device_name" {
+  description = "(Optional) Default root device name when creating default root volume"
+  type        = string
+  default     = "/dev/xvda"
+}
+
+variable "ec2_volume_sizes" {
+  description = "(Optional) Default volume sizes in GB for different device types"
+  type        = map(number)
+  default = {
+    root_volume = 20
+    data_volume = 50
+    log_volume  = 10
+  }
+}
+
