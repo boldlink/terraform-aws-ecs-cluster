@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
-- feat: remove the kms key creation from the module, so that it can be always created outside the module.
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
 ## [3.0.0] - 2025-07.01
