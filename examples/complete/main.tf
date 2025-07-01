@@ -1,15 +1,24 @@
 #### Complete example
 
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
+resource "random_id" "cluster_suffix" {
+  byte_length = 3
+}
+
+
 resource "aws_cloudwatch_log_group" "this" {
   count             = var.logging != "OVERRIDE" ? 0 : 1
   name              = local.log_group_name
   retention_in_days = var.retention_in_days
-  kms_key_id        = module.cluster.key_arn[0]
+  # kms_key_id        = module.cluster.key_arn[0]
 }
 
 module "cluster" {
   source = "../../"
-  name   = var.name
+  name   = "${var.name}-main-${random_id.cluster_suffix.hex}" # Unique name for the cluster, avoid IAM names conflicts
   configuration = {
     execute_command_configuration = {
       log_configuration = {
@@ -42,9 +51,10 @@ module "cluster" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
-  block_device_mappings       = local.block_device_mappings
-  image_id                    = data.aws_ami.amazon_ecs.image_id
-  instance_type               = var.instance_type
+  block_device_mappings           = local.block_device_mappings
+  enable_default_ebs_configuration = false
+  image_id                        = data.aws_ami.amazon_ecs.image_id
+  instance_type                   = var.instance_type
   key_name                    = var.key_name
   associate_public_ip_address = var.associate_public_ip_address
   delete_on_termination       = var.delete_on_termination
@@ -116,14 +126,14 @@ module "cluster_bucket" {
   count         = var.logging != "OVERRIDE" ? 0 : 1
   source        = "boldlink/s3/aws"
   version       = "2.5.1"
-  bucket        = "${var.name}-with-s3"
+  bucket        = "${var.name}-s3-logs-${random_id.bucket_suffix.hex}"
   force_destroy = true
-  tags          = merge({ "Name" = "${var.name}-with-s3" }, var.tags)
+  tags          = merge({ "Name" = "${var.name}-s3-logs" }, var.tags)
 }
 
 module "log_to_s3" {
   source = "../../"
-  name   = "${var.name}-with-s3"
+  name   = "${var.name}-s3-logs-${random_id.cluster_suffix.hex}"
   configuration = {
     execute_command_configuration = {
       log_configuration = {
@@ -164,7 +174,7 @@ module "log_to_s3" {
 #### Example with DEFAULT logging and custom user_data
 module "cluster_default_logging" {
   source = "../../"
-  name   = "${var.name}-default"
+  name   = "${var.name}-default-logs-${random_id.cluster_suffix.hex}"
   configuration = {
     execute_command_configuration = {
       logging = "DEFAULT"
@@ -193,7 +203,7 @@ module "cluster_default_logging" {
 #### Example with NONE logging and existing security group
 module "cluster_no_logging" {
   source = "../../"
-  name   = "${var.name}-no-log"
+  name   = "${var.name}-no-logs-${random_id.cluster_suffix.hex}"
   configuration = {
     execute_command_configuration = {
       logging = "NONE"
@@ -218,7 +228,7 @@ resource "aws_kms_key" "existing" {
 
 module "cluster_existing_kms" {
   source = "../../"
-  name   = "${var.name}-ext-kms"
+  name   = "${var.name}-external-kms-${random_id.cluster_suffix.hex}"
   configuration = {
     execute_command_configuration = {
       logging = "DEFAULT"
@@ -237,7 +247,7 @@ module "cluster_existing_kms" {
 #### EC2 Capacity Provider with managed scaling
 resource "aws_ecs_capacity_provider" "ec2" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}-ec2-cp"
+  name  = "${var.name}-ec2-cp-${random_id.cluster_suffix.hex}"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = module.cluster_ec2_capacity.autoscaling_group_arn
@@ -257,7 +267,7 @@ resource "aws_ecs_capacity_provider" "ec2" {
 
 module "cluster_ec2_capacity" {
   source = "../../"
-  name   = "${var.name}-ec2"
+  name   = "${var.name}-ec2-cluster-${random_id.cluster_suffix.hex}"
 
   create_ec2_instance    = var.create_ec2_instance
   add_capacity_providers = var.create_ec2_instance
@@ -266,24 +276,25 @@ module "cluster_ec2_capacity" {
 
   default_capacity_provider_strategy = var.create_ec2_instance ? {
     ec2_only = {
-      base              = 1
+      base              = 0
       weight            = 100
       capacity_provider = aws_ecs_capacity_provider.ec2[0].name
     }
   } : {}
 
-  subnet_id          = local.private_subnets[0]
-  vpc_id             = local.vpc_id
-  image_id           = data.aws_ami.amazon_ecs.image_id
-  instance_type      = var.instance_type
-  availability_zones = [local.azs]
-  desired_capacity   = 2
-  min_size           = 1
-  max_size           = 5
+  subnet_id                       = local.private_subnets[0]
+  vpc_id                          = local.vpc_id
+  image_id                        = data.aws_ami.amazon_ecs.image_id
+  instance_type                   = var.instance_type
+  availability_zones              = [local.azs]
+  desired_capacity                = 2
+  min_size                        = 1
+  max_size                        = 5
+  enable_default_ebs_configuration = false
 
   tags = merge(
     {
-      Name = "${var.name}-ec2"
+      Name = "${var.name}-ec2-cluster-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -292,7 +303,7 @@ module "cluster_ec2_capacity" {
 #### EC2 only capacity provider (renamed from mixed for clarity)
 resource "aws_ecs_capacity_provider" "mixed" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}-mixed-cp"
+  name  = "${var.name}-mixed-cp-${random_id.cluster_suffix.hex}"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = module.cluster_mixed_capacity.autoscaling_group_arn
@@ -311,7 +322,7 @@ resource "aws_ecs_capacity_provider" "mixed" {
 
 module "cluster_mixed_capacity" {
   source = "../../"
-  name   = "${var.name}-mixed"
+  name   = "${var.name}-mixed-cluster-${random_id.cluster_suffix.hex}"
 
   create_ec2_instance    = var.create_ec2_instance
   add_capacity_providers = true
@@ -347,7 +358,7 @@ module "cluster_mixed_capacity" {
 
   tags = merge(
     {
-      Name = "${var.name}-mixed"
+      Name = "${var.name}-mixed-cluster-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -356,7 +367,7 @@ module "cluster_mixed_capacity" {
 #### Single Fargate capacity provider
 module "cluster_fargate_only" {
   source = "../../"
-  name   = "${var.name}-fargate"
+  name   = "${var.name}-fargate-only-cluster-${random_id.cluster_suffix.hex}"
 
   add_capacity_providers = true
   capacity_providers     = ["FARGATE"]
@@ -371,7 +382,7 @@ module "cluster_fargate_only" {
 
   tags = merge(
     {
-      Name = "${var.name}-fargate"
+      Name = "${var.name}-fargate-only-cluster-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -380,7 +391,7 @@ module "cluster_fargate_only" {
 #### Mixed Fargate + Fargate Spot strategy
 module "cluster_fargate_mixed" {
   source = "../../"
-  name   = "${var.name}-fargate-mixed"
+  name   = "${var.name}-fargate-mixed-cluster-${random_id.cluster_suffix.hex}"
 
   add_capacity_providers = true
   capacity_providers     = ["FARGATE", "FARGATE_SPOT"]
@@ -400,7 +411,7 @@ module "cluster_fargate_mixed" {
 
   tags = merge(
     {
-      Name = "${var.name}-fargate-mixed"
+      Name = "${var.name}-fargate-mixed-cluster-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -409,7 +420,7 @@ module "cluster_fargate_mixed" {
 #### Single Fargate Spot capacity provider
 module "cluster_fargate_spot_only" {
   source = "../../"
-  name   = "${var.name}-spot"
+  name   = "${var.name}-spot-only-cluster-${random_id.cluster_suffix.hex}"
 
   add_capacity_providers = true
   capacity_providers     = ["FARGATE_SPOT"]
@@ -424,7 +435,7 @@ module "cluster_fargate_spot_only" {
 
   tags = merge(
     {
-      Name = "${var.name}-spot"
+      Name = "${var.name}-spot-only-cluster-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -433,7 +444,7 @@ module "cluster_fargate_spot_only" {
 #### Capacity providers without default strategy
 module "cluster_no_default_strategy" {
   source = "../../"
-  name   = "${var.name}-no-strategy"
+  name   = "${var.name}-no-default-strategy-${random_id.cluster_suffix.hex}"
 
   add_capacity_providers = true
   capacity_providers     = ["FARGATE", "FARGATE_SPOT"]
@@ -441,7 +452,7 @@ module "cluster_no_default_strategy" {
 
   tags = merge(
     {
-      Name = "${var.name}-no-strategy"
+      Name = "${var.name}-no-default-strategy-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )
@@ -450,14 +461,14 @@ module "cluster_no_default_strategy" {
 #### No capacity providers (uses cluster defaults)
 module "cluster_default_providers" {
   source = "../../"
-  name   = "${var.name}-defaults"
+  name   = "${var.name}-default-providers-${random_id.cluster_suffix.hex}"
 
   add_capacity_providers = false
   # Uses module default capacity_providers = ["FARGATE"]
 
   tags = merge(
     {
-      Name = "${var.name}-defaults"
+      Name = "${var.name}-default-providers-${random_id.cluster_suffix.hex}"
     },
     var.tags
   )

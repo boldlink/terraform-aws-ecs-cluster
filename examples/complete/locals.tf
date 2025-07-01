@@ -21,7 +21,7 @@ locals {
     for i in data.aws_subnet.private : i.id
   ] : []
 
-  region                = data.aws_region.current.region
+  region                = data.aws_region.current.name
   azs                   = length(local.subnet_az) > 0 ? local.subnet_az[0] : data.aws_availability_zones.available.names[0]
   log_group_name        = "/aws/ecs/${var.name}-log-group"
   ecs_instance_userdata = <<USERDATA

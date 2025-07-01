@@ -1,6 +1,6 @@
 locals {
 
-  region     = data.aws_region.current.region
+  region     = data.aws_region.current.name
   partition  = data.aws_partition.current.partition
   account_id = data.aws_caller_identity.current.account_id
   dns_suffix = data.aws_partition.current.dns_suffix
@@ -52,12 +52,12 @@ locals {
   all_block_device_mappings = concat(var.block_device_mappings, local.default_root_volume)
 
   # Process block device mappings with default EBS configuration
-  processed_block_device_mappings = var.enable_default_ebs_configuration ? [
+  processed_block_device_mappings = [
     for bdm in local.all_block_device_mappings : {
       device_name  = bdm.device_name
       no_device    = lookup(bdm, "no_device", null)
       virtual_name = lookup(bdm, "virtual_name", null)
-      ebs = contains(keys(bdm), "ebs") ? {
+      ebs = contains(keys(bdm), "ebs") && var.enable_default_ebs_configuration ? {
         delete_on_termination = lookup(bdm.ebs, "delete_on_termination", null)
         encrypted             = lookup(bdm.ebs, "encrypted", var.default_ebs_encrypted)
         iops                  = lookup(bdm.ebs, "iops", null)
@@ -66,7 +66,7 @@ locals {
         throughput            = lookup(bdm.ebs, "throughput", null)
         volume_size           = lookup(bdm.ebs, "volume_size", null)
         volume_type           = lookup(bdm.ebs, "volume_type", var.default_ebs_volume_type)
-      } : null
+      } : lookup(bdm, "ebs", null)
     }
-  ] : local.all_block_device_mappings
+  ]
 }

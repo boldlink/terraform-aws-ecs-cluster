@@ -46,7 +46,7 @@ data "aws_subnets" "default" {
 data "aws_vpcs" "supporting" {
   filter {
     name   = "tag:Name"
-    values = [var.supporting_resources_name]
+    values = ["${var.supporting_resources_name}-*"]
   }
 }
 
@@ -54,7 +54,7 @@ data "aws_subnets" "supporting_private" {
   count = length(data.aws_vpcs.supporting.ids) > 0 ? 1 : 0
   filter {
     name   = "tag:Name"
-    values = ["${var.supporting_resources_name}*.pri.*"]
+    values = ["${var.supporting_resources_name}-*.pri.*"]
   }
 }
 
