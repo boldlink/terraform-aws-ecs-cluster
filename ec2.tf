@@ -1,19 +1,19 @@
 ## Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group && var.create_ec2_instance ? 1 : 0
-  name        = "${var.name}-security-group"
+  name        = var.name
   vpc_id      = var.vpc_id
-  description = "ECS cluster Security Group"
+  description = var.security_group_description
   tags        = var.tags
 }
 
 resource "aws_security_group_rule" "ingress" {
   for_each          = var.ingress_rules
   type              = "ingress"
-  description       = "Allow custom inbound traffic from specific ports."
+  description       = var.security_group_ingress_description
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
-  protocol          = "-1"
+  protocol          = var.security_group_default_protocol
   cidr_blocks       = lookup(each.value, "cidr_blocks", null)
   security_group_id = join("", aws_security_group.this.*.id)
 }
@@ -21,10 +21,10 @@ resource "aws_security_group_rule" "ingress" {
 resource "aws_security_group_rule" "egress" {
   for_each          = var.egress_rules
   type              = "egress"
-  description       = "Allow custom egress traffic"
+  description       = var.security_group_egress_description
   from_port         = lookup(each.value, "from_port")
   to_port           = lookup(each.value, "to_port")
-  protocol          = "-1"
+  protocol          = var.security_group_default_protocol
   cidr_blocks       = lookup(each.value, "cidr_blocks", null)
   security_group_id = join("", aws_security_group.this.*.id)
 }
@@ -32,14 +32,16 @@ resource "aws_security_group_rule" "egress" {
 # Iam role
 resource "aws_iam_instance_profile" "this" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}-instance-profile"
+  name  = var.name
   role  = aws_iam_role.cluster_instance[0].name
+  tags  = var.tags
 }
 
 resource "aws_iam_role" "cluster_instance" {
   count              = var.create_ec2_instance ? 1 : 0
-  name               = "${var.name}-cluster-instance-role"
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.container_instance.json
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_cluster_ec2_role" {
@@ -60,7 +62,7 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 # Launch template
 resource "aws_launch_template" "this" {
   count         = var.create_ec2_instance ? 1 : 0
-  name_prefix   = "${var.name}-launch-template"
+  name_prefix   = var.name
   description   = "Launch template for ${var.name} ECS cluster"
   image_id      = var.image_id
   instance_type = var.instance_type
@@ -70,7 +72,7 @@ resource "aws_launch_template" "this" {
     name = aws_iam_instance_profile.this[0].name
   }
 
-  user_data = var.install_ssm_agent ? data.template_cloudinit_config.config.rendered : var.user_data
+  user_data = var.install_ssm_agent ? local.userdata_script : var.user_data
 
   monitoring {
     enabled = var.monitoring_enabled
@@ -84,14 +86,14 @@ resource "aws_launch_template" "this" {
   }
 
   dynamic "block_device_mappings" {
-    for_each = var.block_device_mappings
+    for_each = local.processed_block_device_mappings
     content {
       device_name  = block_device_mappings.value.device_name
       no_device    = lookup(block_device_mappings.value, "no_device", null)
       virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
 
       dynamic "ebs" {
-        for_each = flatten([try(block_device_mappings.value.ebs, [])])
+        for_each = block_device_mappings.value.ebs != null ? [block_device_mappings.value.ebs] : []
         content {
           encrypted             = try(ebs.value.encrypted, null)
           kms_key_id            = try(ebs.value.kms_key_id, null)
@@ -107,9 +109,9 @@ resource "aws_launch_template" "this" {
   }
 
   metadata_options {
-    http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
+    http_endpoint               = lookup(var.metadata_options, "http_endpoint", var.metadata_options_defaults.http_endpoint)
     http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", null)
-    http_tokens                 = lookup(var.metadata_options, "http_tokens", "optional")
+    http_tokens                 = lookup(var.metadata_options, "http_tokens", var.metadata_options_defaults.http_tokens)
     http_protocol_ipv6          = lookup(var.metadata_options, "value.http_protocol_ipv6", null)
     instance_metadata_tags      = lookup(var.metadata_options, "value.instance_metadata_tags", null)
   }
@@ -134,7 +136,7 @@ resource "aws_launch_template" "this" {
 # Auto-scaling Group
 resource "aws_autoscaling_group" "container_instance" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}-asg"
+  name  = var.name
 
   launch_template {
     id      = aws_launch_template.this[0].id
@@ -146,7 +148,16 @@ resource "aws_autoscaling_group" "container_instance" {
     content {
       key                 = tag.key
       value               = tag.value
-      propagate_at_launch = true
+      propagate_at_launch = var.asg_tags_propagate_at_launch
+    }
+  }
+
+  dynamic "tag" {
+    for_each = var.enable_managed_scaling ? [1] : []
+    content {
+      key                 = var.ecs_managed_tag_key
+      value               = var.ecs_managed_tag_value
+      propagate_at_launch = var.ecs_managed_tag_propagate_at_launch
     }
   }
 
@@ -154,6 +165,9 @@ resource "aws_autoscaling_group" "container_instance" {
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
+
+  # Enable instance protection when managed scaling is enabled
+  protect_from_scale_in = var.protect_from_scale_in_independent != null ? var.protect_from_scale_in_independent : var.enable_managed_scaling
 
   lifecycle {
     create_before_destroy = true

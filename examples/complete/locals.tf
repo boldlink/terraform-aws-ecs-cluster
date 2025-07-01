@@ -1,13 +1,28 @@
 locals {
-  subnet_az = [
+  # Check what VPC infrastructure is available
+  supporting_vpc_available = length(data.aws_vpcs.supporting.ids) > 0
+  default_vpc_available    = length(data.aws_vpcs.default.ids) > 0
+
+  # Determine VPC ID and subnet IDs based on availability
+  vpc_id = local.supporting_vpc_available ? data.aws_vpcs.supporting.ids[0] : (
+    local.default_vpc_available ? data.aws_vpcs.default.ids[0] : ""
+  )
+
+  subnet_ids = local.supporting_vpc_available ? data.aws_subnets.supporting_private[0].ids : (
+    local.default_vpc_available ? data.aws_subnets.default[0].ids : []
+  )
+
+  # Only create subnet data if we have valid subnet IDs
+  subnet_az = length(local.subnet_ids) > 0 ? [
     for az in data.aws_subnet.private : az.availability_zone
-  ]
-  private_subnet_id = [
+  ] : []
+
+  private_subnet_id = length(local.subnet_ids) > 0 ? [
     for i in data.aws_subnet.private : i.id
-  ]
+  ] : []
+
   region                = data.aws_region.current.name
-  azs                   = local.subnet_az[0]
-  vpc_id                = data.aws_vpc.supporting.id
+  azs                   = length(local.subnet_az) > 0 ? local.subnet_az[0] : data.aws_availability_zones.available.names[0]
   log_group_name        = "/aws/ecs/${var.name}-log-group"
   ecs_instance_userdata = <<USERDATA
   #!/bin/bash -x
@@ -15,6 +30,14 @@ locals {
   ECS_CLUSTER=${var.name}
   EOF
   USERDATA
+
+  custom_user_data = <<USERDATA
+#!/bin/bash -x
+echo ECS_CLUSTER=${var.name}-default-logging >> /etc/ecs/ecs.config
+echo ECS_ENABLE_LOGGING=true >> /etc/ecs/ecs.config
+echo ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"] >> /etc/ecs/ecs.config
+yum update -y
+USERDATA
 
   private_subnets = local.private_subnet_id
   partition       = data.aws_partition.current.partition

@@ -6,13 +6,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
-- feat: Add `aws_ecs_capacity_provider` resource
-- feat: Add more options for launch template and autoscaling group
-- feat: have the autoscaling group to be managed by AWS ECS
-- feat: add an example that logs to s3 bucket
-- feat: option to use cmk to encrypt ec2 ebs volumes
-- FARGATE_SPOT capacity_providers and default_capacity_provider_strategy examples
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
+
+## [3.0.0] - 2025-07.01
+- feat: Add `aws_ecs_capacity_provider` resource support with managed scaling
+- feat: Add `enable_managed_scaling` variable for ECS-managed Auto Scaling Groups
+- feat: Add `autoscaling_group_arn` and `autoscaling_group_name` outputs
+- feat: Add `AmazonECSManaged` tag support for capacity provider integration
+- feat: Add `protect_from_scale_in` support for Auto Scaling Groups
+- feat: Add comprehensive capacity provider testing (12 scenarios)
+- feat: Add complete metadata options configuration support
+- feat: Add all ECS Exec logging modes (OVERRIDE, DEFAULT, NONE)
+- feat: Add S3 logging with encryption support
+- feat: Add custom user_data testing alongside extra_script
+- feat: Add existing KMS key usage examples
+- feat: Add mixed Fargate + Fargate Spot capacity strategies
+- feat: Add single capacity provider configurations
+- feat: Add ARM64/Apple Silicon Mac compatibility
+- update: ECS service module version from 1.5.3 to 1.12.2
+- update: Module argument names for ECS service compatibility
+- update: Complete example variable coverage from ~60% to 100%
+- update: Shortened module names to fix IAM role 64-character limits
+- update: Enhanced VPC detection with fallback to default VPC
+- update: Improved error messages with actionable solutions
+- fix: Deprecated `data.aws_region.current.name` to `data.aws_region.current.region`
+- fix: Removed deprecated `hashicorp/template` provider dependency
+- fix: Replaced `template_cloudinit_config` with built-in Terraform functions
+- fix: Added missing tags to KMS key, IAM instance profile, and IAM role
+- fix: ECS capacity provider managed termination protection requirements
+- fix: Mixed capacity provider strategy AWS API validation errors
+- fix: Empty collection errors in locals with safe subnet handling
+- fix: Duplicate `enable_managed_scaling` attribute declaration
+- fix: Resource reference conflicts in VPC creation logic
+- fix: IAM role name length exceeding AWS limits
+- remove: Template provider dependency and references
+- remove: VPC creation resources causing reference conflicts
+- remove: Deprecated AWS provider attribute usage
+- feat: Add configurable ECS execute command logging mode variable
+- feat: Add configurable KMS policy statement IDs and permissions
+- feat: Add configurable security group descriptions and protocols
+- feat: Add configurable ASG tag propagation settings
+- feat: Add configurable SSM agent installation URLs and versions
+- feat: Add configurable SSM agent temporary directory path
+- fix: AmazonECSManaged tag propagation setting for ECS managed scaling
+- fix: Module hardcoded values moved to configurable variables with defaults
+- feat: Add configurable ECS managed tag key, value, and propagation settings
+- feat: Add default EBS volume type (gp3) and encryption configuration
+- feat: Add configurable EBS KMS key support (aws/ebs or custom CMK)
+- feat: Add ec2_volume_sizes variable for standardized volume sizing
+- feat: Add automatic default root volume creation with secure defaults
+- feat: Add configurable resource naming suffixes for all AWS resources
+- feat: Add configurable EC2 metadata options defaults
+- feat: Add independent scale-in protection control
+- fix: AWS provider v5.x compatibility for data.aws_region.current attribute
+- fix: AWS provider version constraints to exclude v6.x for ARM64 compatibility
+- feat: option to use cmk to encrypt ec2 ebs volumes
+- Added: Unique resource naming with random hex suffixes to prevent conflicts
+- Added: Random provider requirement (>= 3.0.0) for resource naming
+- Fixed: AWS provider v5.x compatibility - changed data.aws_region.current.region to data.aws_region.current.name
+- Fixed: AWS provider version constraint to exclude v6.x (< 6.0.0) for ARM64 compatibility
+- Fixed: Launch template empty EBS blocks issue in dynamic block configuration
+- Fixed: EBS block device mapping processing logic to respect enable_default_ebs_configuration
+- Fixed: Supporting VPC data source filters to use proper naming pattern
+- Changed: Default capacity provider strategy base from 1 to 0 to prevent extra instances
+- Changed: Explicit desired capacity configuration in EC2 capacity examples
 
 ## [2.0.2] - 2023-10-17
 - fix: ecs task role permissions in complete example
@@ -80,8 +137,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - modified variables and introduced lookup function
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/2.0.2...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-ecs-cluster/compare/3.0.0...HEAD
 
+[3.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/3.0.0
 [2.0.2]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.2
 [2.0.1]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.1
 [2.0.0]: https://github.com/boldlink/terraform-aws-ecs-cluster/releases/tag/2.0.0
