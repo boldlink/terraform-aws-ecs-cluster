@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: investigate if it is possible to restrict further the permissions in `AmazonSSMManagedInstanceCore`
+- feat: remove the kms key creation from the module, so that it can be always created outside the module.
 - fix: ecs-service version used in complete example: The current version requires task role permissions modification outside the module using a resource.
 
-## [3.0.0] - 2025-06-30
+## [3.0.0] - 2025-07.01
 - feat: Add `aws_ecs_capacity_provider` resource support with managed scaling
 - feat: Add `enable_managed_scaling` variable for ECS-managed Auto Scaling Groups
 - feat: Add `autoscaling_group_arn` and `autoscaling_group_name` outputs
@@ -58,7 +59,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Add configurable resource naming suffixes for all AWS resources
 - feat: Add configurable EC2 metadata options defaults
 - feat: Add independent scale-in protection control
+- fix: AWS provider v5.x compatibility for data.aws_region.current attribute
+- fix: AWS provider version constraints to exclude v6.x for ARM64 compatibility
 - feat: option to use cmk to encrypt ec2 ebs volumes
+- Added: Unique resource naming with random hex suffixes to prevent conflicts
+- Added: Random provider requirement (>= 3.0.0) for resource naming
+- Fixed: AWS provider v5.x compatibility - changed data.aws_region.current.region to data.aws_region.current.name
+- Fixed: AWS provider version constraint to exclude v6.x (< 6.0.0) for ARM64 compatibility
+- Fixed: Launch template empty EBS blocks issue in dynamic block configuration
+- Fixed: EBS block device mapping processing logic to respect enable_default_ebs_configuration
+- Fixed: Supporting VPC data source filters to use proper naming pattern
+- Changed: Default capacity provider strategy base from 1 to 0 to prevent extra instances
+- Changed: Explicit desired capacity configuration in EC2 capacity examples
 
 ## [2.0.2] - 2023-10-17
 - fix: ecs task role permissions in complete example

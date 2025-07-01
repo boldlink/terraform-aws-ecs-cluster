@@ -1,8 +1,12 @@
+resource "random_id" "vpc_suffix" {
+  byte_length = 3
+}
+
 module "cluster_vpc" {
   #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
   source                 = "boldlink/vpc/aws"
   version                = "3.0.4"
-  name                   = var.name
+  name                   = "${var.name}-${random_id.vpc_suffix.hex}"
   cidr_block             = var.cidr_block
   enable_dns_support     = var.enable_dns_support
   enable_dns_hostnames   = var.enable_dns_hostnames

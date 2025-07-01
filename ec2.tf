@@ -93,7 +93,7 @@ resource "aws_launch_template" "this" {
       virtual_name = lookup(block_device_mappings.value, "virtual_name", null)
 
       dynamic "ebs" {
-        for_each = flatten([try(block_device_mappings.value.ebs, [])])
+        for_each = block_device_mappings.value.ebs != null ? [block_device_mappings.value.ebs] : []
         content {
           encrypted             = try(ebs.value.encrypted, null)
           kms_key_id            = try(ebs.value.kms_key_id, null)
