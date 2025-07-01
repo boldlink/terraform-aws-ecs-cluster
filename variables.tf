@@ -323,17 +323,6 @@ variable "ecs_managed_tag_propagate_at_launch" {
   default     = true
 }
 
-variable "resource_name_suffix" {
-  description = "(Optional) Name suffixes for resources created by the module"
-  type        = map(string)
-  default = {
-    security_group    = "-security-group"
-    instance_profile  = "-instance-profile"
-    iam_role          = "-cluster-instance-role"
-    launch_template   = "-launch-template"
-    autoscaling_group = "-asg"
-  }
-}
 
 variable "metadata_options_defaults" {
   description = "(Optional) Default values for EC2 instance metadata options"

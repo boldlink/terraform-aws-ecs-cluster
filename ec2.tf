@@ -1,7 +1,7 @@
 ## Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group && var.create_ec2_instance ? 1 : 0
-  name        = "${var.name}${var.resource_name_suffix.security_group}"
+  name        = var.name
   vpc_id      = var.vpc_id
   description = var.security_group_description
   tags        = var.tags
@@ -32,14 +32,14 @@ resource "aws_security_group_rule" "egress" {
 # Iam role
 resource "aws_iam_instance_profile" "this" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}${var.resource_name_suffix.instance_profile}"
+  name  = var.name
   role  = aws_iam_role.cluster_instance[0].name
   tags  = var.tags
 }
 
 resource "aws_iam_role" "cluster_instance" {
   count              = var.create_ec2_instance ? 1 : 0
-  name               = "${var.name}${var.resource_name_suffix.iam_role}"
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.container_instance.json
   tags               = var.tags
 }
@@ -62,7 +62,7 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 # Launch template
 resource "aws_launch_template" "this" {
   count         = var.create_ec2_instance ? 1 : 0
-  name_prefix   = "${var.name}${var.resource_name_suffix.launch_template}"
+  name_prefix   = var.name
   description   = "Launch template for ${var.name} ECS cluster"
   image_id      = var.image_id
   instance_type = var.instance_type
@@ -136,7 +136,7 @@ resource "aws_launch_template" "this" {
 # Auto-scaling Group
 resource "aws_autoscaling_group" "container_instance" {
   count = var.create_ec2_instance ? 1 : 0
-  name  = "${var.name}${var.resource_name_suffix.autoscaling_group}"
+  name  = var.name
 
   launch_template {
     id      = aws_launch_template.this[0].id
