@@ -51,21 +51,21 @@ module "cluster" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
-  block_device_mappings           = local.block_device_mappings
+  block_device_mappings            = local.block_device_mappings
   enable_default_ebs_configuration = false
-  image_id                        = data.aws_ami.amazon_ecs.image_id
-  instance_type                   = var.instance_type
-  key_name                    = var.key_name
-  associate_public_ip_address = var.associate_public_ip_address
-  delete_on_termination       = var.delete_on_termination
-  install_ssm_agent           = var.install_ssm_agent
-  extra_script                = local.ecs_instance_userdata
-  availability_zones          = [local.azs]
-  desired_capacity            = var.desired_capacity
-  min_size                    = var.min_size
-  max_size                    = var.max_size
-  launch_template_version     = var.launch_template_version
-  monitoring_enabled          = var.monitoring_enabled
+  image_id                         = data.aws_ami.amazon_ecs.image_id
+  instance_type                    = var.instance_type
+  key_name                         = var.key_name
+  associate_public_ip_address      = var.associate_public_ip_address
+  delete_on_termination            = var.delete_on_termination
+  install_ssm_agent                = var.install_ssm_agent
+  extra_script                     = local.ecs_instance_userdata
+  availability_zones               = [local.azs]
+  desired_capacity                 = var.desired_capacity
+  min_size                         = var.min_size
+  max_size                         = var.max_size
+  launch_template_version          = var.launch_template_version
+  monitoring_enabled               = var.monitoring_enabled
   metadata_options = {
     http_endpoint               = "enabled"
     http_tokens                 = "required"
@@ -282,14 +282,14 @@ module "cluster_ec2_capacity" {
     }
   } : {}
 
-  subnet_id                       = local.private_subnets[0]
-  vpc_id                          = local.vpc_id
-  image_id                        = data.aws_ami.amazon_ecs.image_id
-  instance_type                   = var.instance_type
-  availability_zones              = [local.azs]
-  desired_capacity                = 2
-  min_size                        = 1
-  max_size                        = 5
+  subnet_id                        = local.private_subnets[0]
+  vpc_id                           = local.vpc_id
+  image_id                         = data.aws_ami.amazon_ecs.image_id
+  instance_type                    = var.instance_type
+  availability_zones               = [local.azs]
+  desired_capacity                 = 2
+  min_size                         = 1
+  max_size                         = 5
   enable_default_ebs_configuration = false
 
   tags = merge(
